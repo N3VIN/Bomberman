@@ -34,7 +34,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 )
 
 # enable c++20 features
-target_compile_features(Core PUBLIC cxx_std_20)
+target_compile_features(Core PUBLIC cxx_std_23)
 
 include(FetchContent)
 # add glm
