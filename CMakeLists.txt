@@ -13,24 +13,28 @@ else()
   set(TARGET_PARAM WIN32)
 endif()
 
-# list source files here
+# Core static library
+add_library(Core STATIC
+  Core/Font.cpp
+  Core/GameObject.cpp
+  Core/InputManager.cpp
+  Core/Minigin.cpp
+  Core/Renderer.cpp
+  Core/ResourceManager.cpp
+  Core/Scene.cpp
+  Core/SceneManager.cpp
+  Core/TextObject.cpp
+  Core/Texture2D.cpp
+  Core/Transform.cpp
+)
+
+# Main executable
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Font.cpp
-  Minigin/GameObject.cpp
-  Minigin/InputManager.cpp
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Renderer.cpp
-  Minigin/ResourceManager.cpp
-  Minigin/Scene.cpp
-  Minigin/SceneManager.cpp
-  Minigin/TextObject.cpp
-  Minigin/Texture2D.cpp
-  Minigin/Transform.cpp
+  App/Main.cpp
 )
 
 # enable c++20 features
-target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
+target_compile_features(Core PUBLIC cxx_std_20)
 
 include(FetchContent)
 # add glm
@@ -113,22 +117,34 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
 
-target_include_directories("${TARGET_NAME}" PUBLIC
-  ${CMAKE_SOURCE_DIR}/Minigin/
+# Core library configuration
+target_include_directories(Core PUBLIC
+  ${CMAKE_SOURCE_DIR}/Core/
   ${VLD_INCLUDE_DIR}
 )
 
-target_link_libraries("${TARGET_NAME}" PUBLIC
+target_link_libraries(Core PUBLIC
   SDL3::SDL3
   SDL3_ttf::SDL3_ttf
   glm::glm
   ${VLD_LIBRARIES}
 )
 
+# Executable configuration
+target_include_directories("${TARGET_NAME}" PUBLIC
+  ${CMAKE_SOURCE_DIR}/Core/
+)
+
+target_link_libraries("${TARGET_NAME}" PUBLIC
+  Core
+)
+
 if(MSVC)
   # compile at warning level 4 + treat warnings as errors
+  target_compile_options(Core PRIVATE /W4 /WX)
   target_compile_options(${TARGET_NAME} PRIVATE /W4 /WX)
 else()
+  target_compile_options(Core PRIVATE -Wall -Wextra -Werror)
   target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -Werror)
 endif()
 
