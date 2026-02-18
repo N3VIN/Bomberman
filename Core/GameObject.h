@@ -16,7 +16,7 @@ namespace dae {
         GameObject &operator=(const GameObject &other) = delete;
         GameObject &operator=(GameObject &&other) = delete;
 
-        virtual void Update();
+        virtual void Update(float deltaTime);
         virtual void Render() const;
 
         template<typename T, typename... Args>
@@ -33,12 +33,11 @@ namespace dae {
 
         // TODO: SendMessage function
 
-        void SetTexture(const std::string &filename);
-        void SetPosition(float x, float y);
+        void SetPosition(const glm::vec2 &position);
+        glm::vec2 GetPosition() const;
 
     private:
         Transform m_transform{};
         std::vector<std::unique_ptr<Component> > m_components{};
-        std::shared_ptr<Texture2D> m_texture{};
     };
 }
