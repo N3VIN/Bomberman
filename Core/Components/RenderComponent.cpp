@@ -5,11 +5,9 @@
 #include "ResourceManager.h"
 
 dae::RenderComponent::RenderComponent(GameObject *parent)
-    :Component(parent){
-}
+    : Component(parent) {}
 
-void dae::RenderComponent::Update(float /*deltaTime*/) {
-}
+void dae::RenderComponent::Update(float /*deltaTime*/) {}
 
 void dae::RenderComponent::Render() const {
     const auto &pos = m_parent->GetPosition();

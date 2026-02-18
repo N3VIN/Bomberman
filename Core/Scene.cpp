@@ -35,7 +35,7 @@ void Scene::Remove(GameObjectHandle handle) {
     m_handleToIndex.erase(it);
 }
 
-void Scene::Remove(const GameObject* object) {
+void Scene::Remove(const GameObject *object) {
     if (object == nullptr) return;
     Remove(object->GetHandle());
 }
@@ -45,7 +45,7 @@ void Scene::RemoveAll() {
     m_handleToIndex.clear();
 }
 
-GameObject* Scene::Get(GameObjectHandle handle) const {
+GameObject *Scene::Get(GameObjectHandle handle) const {
     auto it = m_handleToIndex.find(handle);
     if (it == m_handleToIndex.end()) return nullptr;
     return m_objects[it->second].get();

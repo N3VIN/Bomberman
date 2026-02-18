@@ -15,6 +15,7 @@ namespace dae {
 
     class GameObject final {
         friend class Scene;
+
     public:
         GameObject() = default;
         ~GameObject();
@@ -47,8 +48,8 @@ namespace dae {
         [[nodiscard]] GameObjectHandle GetHandle() const { return m_handle; }
 
     private:
-        Transform m_transform{}; // following unitys footsteps and not making it a component
-        std::unordered_map<TypeId, std::unique_ptr<Component>> m_components{}; // this approach has a downside, you can only have 1 component per type but you eliminate RTTI and you get O(1) lookup :p
+        Transform m_transform{};                                                // following unitys footsteps and not making it a component
+        std::unordered_map<TypeId, std::unique_ptr<Component> > m_components{}; // this approach has a downside, you can only have 1 component per type but you eliminate RTTI and you get O(1) lookup :p
         GameObjectHandle m_handle{INVALID_HANDLE};
     };
 }
