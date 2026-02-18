@@ -3,13 +3,13 @@
 namespace dae {
     class GameObject;
 
-    using TypeId = void(*)(); // to avoid RTTI
+    using TypeId = const void*; // to avoid RTTI
 
     template<typename T>
-    static void TypeIdHelper() {}
-
-    template<typename T>
-    constexpr TypeId GetTypeId() { return &TypeIdHelper<T>; }
+    inline TypeId GetTypeId() {
+        static const char unique{};
+        return &unique;
+    }
 
     class Component {
     public:
