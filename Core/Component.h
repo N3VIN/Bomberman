@@ -9,6 +9,8 @@ namespace dae {
         virtual void Update(float deltaTime) = 0;
         virtual void FixedUpdate() = 0;
 
+        // TODO: SendMessage virtual function
+
     protected:
         GameObject *m_parent = nullptr;
     };
