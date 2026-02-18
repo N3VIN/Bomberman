@@ -3,6 +3,14 @@
 namespace dae {
     class GameObject;
 
+    using TypeId = void(*)(); // to avoid RTTI
+
+    template<typename T>
+    static void TypeIdHelper() {}
+
+    template<typename T>
+    constexpr TypeId GetTypeId() { return &TypeIdHelper<T>; }
+
     class Component {
     public:
         explicit Component(GameObject* parent) : m_parent(parent) {}

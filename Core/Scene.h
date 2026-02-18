@@ -1,15 +1,19 @@
 #pragma once
 #include <memory>
-#include <string>
+// #include <string>
 #include <vector>
+#include <unordered_map>
 #include "GameObject.h"
 
 namespace dae {
     class Scene final {
     public:
-        void Add(std::unique_ptr<GameObject> object);
-        void Remove(const GameObject &object);
+        GameObjectHandle Add(std::unique_ptr<GameObject> object);
+        void Remove(GameObjectHandle handle);
+        void Remove(const GameObject* object);
         void RemoveAll();
+
+        [[nodiscard]] GameObject* Get(GameObjectHandle handle) const;
 
         void Update(float deltaTime);
         void FixedUpdate();
@@ -25,6 +29,8 @@ namespace dae {
         friend class SceneManager;
         explicit Scene() = default;
 
-        std::vector<std::unique_ptr<GameObject> > m_objects{};
+        std::vector<std::unique_ptr<GameObject>> m_objects{};
+        std::unordered_map<GameObjectHandle, size_t> m_handleToIndex{};
+        GameObjectHandle m_nextHandle{0};
     };
 }

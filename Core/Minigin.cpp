@@ -119,7 +119,7 @@ void dae::Minigin::RunOneFrame() {
 
     // sleep only for the native build, browser handles the RequestAnimationFrame
 #ifndef __EMSCRIPTEN__
-    const auto sleepTime = currentTime + std::chrono::milliseconds(Time::MS_PER_FRAME) - std::chrono::high_resolution_clock::now(); // TODO: Check the time class
+    const auto sleepTime = currentTime + std::chrono::milliseconds(Time::MS_PER_FRAME) - std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(sleepTime);
 #endif
 }
