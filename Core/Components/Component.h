@@ -12,7 +12,7 @@ namespace dae {
         Component(Component&&) = delete;
         Component& operator=(Component&&) = delete;
 
-        virtual void Update(float deltaTime) {}
+        virtual void Update(float /*deltaTime*/) {}
         virtual void FixedUpdate() {}
         virtual void Render() const {}
 

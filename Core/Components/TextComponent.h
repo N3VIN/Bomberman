@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <string>
+#include <SDL3/SDL_pixels.h>
 
 #include "Component.h"
 
@@ -8,15 +9,15 @@ namespace dae {
     class Font;
     class Texture2D;
 
-    class TextComponent final : Component {
+    class TextComponent final : public Component {
     public:
-        TextComponent(GameObject *owner, const std::string &text, std::shared_ptr<Font> font,
-                      const SDL_Color &color = {255, 255, 255, 255});
+        explicit TextComponent(GameObject *owner);
 
         void Update(float deltaTime) override;
         void Render() const override;
 
         void SetText(const std::string &text);
+        void SetFont(std::shared_ptr<Font> font);
         void SetColor(const SDL_Color &color);
 
     private:

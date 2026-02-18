@@ -11,10 +11,14 @@
 //#include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Minigin.h"
+
+#include <thread>
+
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "GameTime.h"
 
 SDL_Window *g_window{};
 
@@ -54,6 +58,8 @@ void PrintSDLVersion() {
 dae::Minigin::Minigin(const std::filesystem::path &dataPath) {
     PrintSDLVersion();
 
+    std::cout << "Loading minigin data..." << std::endl;
+
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
         SDL_Log("Renderer error: %s", SDL_GetError());
         throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
@@ -82,16 +88,38 @@ dae::Minigin::~Minigin() {
 
 void dae::Minigin::Run(const std::function<void()> &load) {
     load();
+
+    m_lastTime = std::chrono::high_resolution_clock::now();
+    m_lag = 0.0f;
+
 #ifndef __EMSCRIPTEN__
-    while (!m_quit)
+    while (!m_quit) {
         RunOneFrame();
+    }
 #else
     emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 #endif
 }
 
 void dae::Minigin::RunOneFrame() {
+    const auto currentTime = std::chrono::high_resolution_clock::now();
+    Time::deltaTime = std::chrono::duration<float>(currentTime - m_lastTime).count();
+    m_lastTime = currentTime;
+    m_lag += Time::deltaTime;
+
     m_quit = !InputManager::GetInstance().ProcessInput();
-    SceneManager::GetInstance().Update();
+
+    while (m_lag >= Time::fixedDeltaTime) {
+        SceneManager::GetInstance().FixedUpdate();
+        m_lag -= Time::fixedDeltaTime;
+    }
+
+    SceneManager::GetInstance().Update(Time::deltaTime);
     Renderer::GetInstance().Render();
+
+    // sleep only for the native build, browser handles the RequestAnimationFrame
+#ifndef __EMSCRIPTEN__
+    const auto sleepTime = currentTime + std::chrono::milliseconds(Time::MS_PER_FRAME) - std::chrono::high_resolution_clock::now(); // TODO: Check the time class
+    std::this_thread::sleep_for(sleepTime);
+#endif
 }

@@ -23,12 +23,11 @@ add_library(Core STATIC
   Core/ResourceManager.cpp
   Core/Scene.cpp
   Core/SceneManager.cpp
-  Core/TextObject.cpp
-  Core/Texture2D.cpp
+        Core/Texture2D.cpp
   Core/Transform.cpp
   Core/Components/RenderComponent.cpp
         Core/Components/TextComponent.cpp
-        Core/Components/TextComponent.h
+        Core/Components/FPSComponent.cpp
 )
 
 # Main executable

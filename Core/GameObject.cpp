@@ -1,14 +1,27 @@
 #include <string>
 #include "GameObject.h"
-// #include "ResourceManager.h"
-// #include "Renderer.h"
 #include "Components/Component.h"
+#include "Components/RenderComponent.h"
+#include "Components/TextComponent.h"
+#include "Components/FPSComponent.h"
+
+#define INSTANTIATE_COMPONENT(T) \
+    template T* GameObject::AddComponent<T>(); \
+    template T* GameObject::GetComponent<T>() const; \
+    template bool GameObject::HasComponent<T>() const; \
+    template void GameObject::RemoveComponent<T>();
 
 dae::GameObject::~GameObject() = default;
 
 void dae::GameObject::Update(float deltaTime) {
     for (auto &component: m_components) {
         component->Update(deltaTime);
+    }
+}
+
+void dae::GameObject::FixedUpdate() {
+    for (auto &component: m_components) {
+        component->FixedUpdate();
     }
 }
 
@@ -26,10 +39,10 @@ glm::vec2 dae::GameObject::GetPosition() const {
     return m_transform.GetPosition();
 }
 
-template<typename T, typename... Args>
-T *dae::GameObject::AddComponent(Args &&... args) {
+template<typename T>
+T *dae::GameObject::AddComponent() {
     static_assert(std::is_base_of_v<Component, T>, "T must derive from Component");
-    auto &component = m_components.emplace_back(std::make_unique<T>(this, std::forward<Args>(args)...));
+    auto &component = m_components.emplace_back(std::make_unique<T>(this));
     return static_cast<T *>(component.get());
 }
 
@@ -65,4 +78,10 @@ void dae::GameObject::RemoveComponent() {
             return;
         }
     }
+}
+
+namespace dae {
+    INSTANTIATE_COMPONENT(RenderComponent)
+    INSTANTIATE_COMPONENT(TextComponent)
+    INSTANTIATE_COMPONENT(FPSComponent)
 }

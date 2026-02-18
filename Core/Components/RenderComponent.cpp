@@ -8,13 +8,10 @@ dae::RenderComponent::RenderComponent(GameObject *parent)
     :Component(parent){
 }
 
-void dae::RenderComponent::Update(float deltaTime) {
-    Component::Update(deltaTime);
+void dae::RenderComponent::Update(float /*deltaTime*/) {
 }
 
 void dae::RenderComponent::Render() const {
-    Component::Render();
-
     const auto &pos = m_parent->GetPosition();
     Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
