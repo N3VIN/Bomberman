@@ -14,7 +14,6 @@ namespace dae {
         explicit TextComponent(GameObject *owner);
 
         void Update(float deltaTime) override;
-        void Render() const override;
 
         void SetText(const std::string &text);
         void SetFont(std::shared_ptr<Font> font);

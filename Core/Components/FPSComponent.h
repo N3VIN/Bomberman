@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include "Component.h"
+#include "TextComponent.h"
 
 namespace dae {
     constexpr float UPDATE_INTERVAL = 1.0f;
@@ -12,6 +13,9 @@ namespace dae {
 
     private:
         int m_frameCount{};
-        float m_elapsedTime{};
+        int m_cachedFps{};
+        float m_elapsedTime{UPDATE_INTERVAL};
+
+        TextComponent *m_text;
     };
 } // dae

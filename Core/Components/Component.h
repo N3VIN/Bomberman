@@ -3,14 +3,6 @@
 namespace dae {
     class GameObject;
 
-    using TypeId = const void *; // to avoid RTTI
-
-    template<typename T>
-    inline TypeId GetTypeId() {
-        static const char unique{};
-        return &unique;
-    }
-
     class Component {
     public:
         explicit Component(GameObject *parent)
@@ -26,9 +18,9 @@ namespace dae {
         virtual void FixedUpdate() {}
         virtual void Render() const {}
 
-        // TODO: SendMessage virtual function
+        GameObject *GetParent() const { return m_parent; }
 
-    protected:
+    private:
         GameObject *m_parent = nullptr;
     };
 } // dae

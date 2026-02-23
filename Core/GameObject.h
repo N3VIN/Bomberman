@@ -1,21 +1,13 @@
 #pragma once
-#include <string>
 #include <memory>
-#include <cstdint>
-#include <unordered_map>
+#include <vector>
 #include "Transform.h"
 #include "Components/Component.h"
 
 namespace dae {
     class Texture2D;
-    class Scene;
-
-    using GameObjectHandle = uint32_t;
-    constexpr GameObjectHandle INVALID_HANDLE = UINT32_MAX;
 
     class GameObject final {
-        friend class Scene;
-
     public:
         GameObject() = default;
         ~GameObject();
@@ -29,27 +21,53 @@ namespace dae {
         void Render() const;
 
         template<typename T>
-        T *AddComponent();
+        T *AddComponent() {
+            static_assert(std::is_base_of_v<Component, T>, "T must derive from Component");
+            auto &component = m_components.emplace_back(std::make_unique<T>(this));
+            return static_cast<T *>(component.get());
+        }
 
         template<typename T>
-        T *GetComponent() const;
+        T *GetComponent() const {
+            for (const auto &component: m_components) {
+                if (auto *ptr = dynamic_cast<T *>(component.get())) {
+                    return ptr;
+                }
+            }
+
+            return nullptr;
+        }
 
         template<typename T>
-        [[nodiscard]] bool HasComponent() const;
+        bool HasComponent() const {
+            for (const auto &component: m_components) {
+                if (dynamic_cast<T *>(component.get())) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         template<typename T>
-        void RemoveComponent();
+        void RemoveComponent() {
+            for (size_t i = m_components.size(); i-- > 0;) {
+                if (dynamic_cast<T *>(m_components[i].get())) {
+                    // assuming that the order for the components dont matter
+                    std::swap(m_components[i], m_components.back());
+                    m_components.pop_back();
+                    return;
+                }
+            }
+        }
 
         // TODO: SendMessage function
 
         void SetPosition(const glm::vec2 &position);
         [[nodiscard]] glm::vec2 GetPosition() const;
 
-        [[nodiscard]] GameObjectHandle GetHandle() const { return m_handle; }
-
     private:
-        Transform m_transform{};                                                // following unitys footsteps and not making it a component
-        std::unordered_map<TypeId, std::unique_ptr<Component> > m_components{}; // this approach has a downside, you can only have 1 component per type but you eliminate RTTI and you get O(1) lookup :p
-        GameObjectHandle m_handle{INVALID_HANDLE};
+        Transform m_transform{}; // following unitys footsteps and not making it a component
+        std::vector<std::unique_ptr<Component> > m_components{};
     };
 }
