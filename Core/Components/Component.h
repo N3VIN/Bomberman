@@ -18,8 +18,9 @@ namespace dae {
     protected:
         explicit Component(GameObject *parent)
             : m_parent(parent) {}
+
         GameObject *GetParent() const { return m_parent; }
-        
+
     private:
         GameObject *m_parent = nullptr;
     };

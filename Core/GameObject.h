@@ -81,7 +81,7 @@ namespace dae {
         void RemoveChild(GameObject *child);
         bool IsChild(const GameObject *object) const;
         void SetTransformDirty();
-        void RemoveAndSetNewParent(GameObject* parent);
+        void RemoveAndSetNewParent(GameObject *parent);
 
 
         mutable Transform m_transform{}; // following unitys footsteps and not making it a component

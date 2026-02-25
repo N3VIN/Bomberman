@@ -39,6 +39,10 @@ void dae::Transform::UpdateWorldTransform() {
     m_isDirty = false;
 }
 
+const glm::mat3 &dae::Transform::GetWorldTransform() const {
+    return m_worldTransform;
+}
+
 glm::vec2 dae::Transform::GetWorldPosition() const {
     return {m_worldTransform[2][0], m_worldTransform[2][1]};
 }

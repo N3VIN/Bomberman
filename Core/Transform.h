@@ -15,7 +15,7 @@ namespace dae {
         [[nodiscard]] bool IsDirty() const { return m_isDirty; }
         void UpdateWorldTransform(const glm::mat3 &parentWorld);
         void UpdateWorldTransform();
-        [[nodiscard]] const glm::mat3 &GetWorldTransform() const { return m_worldTransform; }
+        [[nodiscard]] const glm::mat3 &GetWorldTransform() const;
         [[nodiscard]] glm::vec2 GetWorldPosition() const;
         [[nodiscard]] float GetWorldRotation() const;
 
