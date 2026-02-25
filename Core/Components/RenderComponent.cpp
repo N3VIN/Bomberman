@@ -1,5 +1,6 @@
 ﻿#include "RenderComponent.h"
 
+#include <glm/trigonometric.hpp>
 #include "GameObject.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
@@ -11,8 +12,9 @@ void dae::RenderComponent::Update(float /*deltaTime*/) {}
 
 void dae::RenderComponent::Render() const {
     if (!m_texture) return;
-    const auto &pos = GetParent()->GetPosition();
-    Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+    const auto pos = GetParent()->GetWorldPosition();
+    const auto rot = glm::degrees(GetParent()->GetWorldRotation());
+    Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, rot);
 }
 
 void dae::RenderComponent::SetTexture(const std::string &filename) {

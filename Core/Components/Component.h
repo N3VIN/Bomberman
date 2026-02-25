@@ -5,9 +5,6 @@ namespace dae {
 
     class Component {
     public:
-        explicit Component(GameObject *parent)
-            : m_parent(parent) {}
-
         virtual ~Component() = default;
         Component(const Component &) = delete;
         Component &operator=(const Component &) = delete;
@@ -18,8 +15,11 @@ namespace dae {
         virtual void FixedUpdate() {}
         virtual void Render() const {}
 
+    protected:
+        explicit Component(GameObject *parent)
+            : m_parent(parent) {}
         GameObject *GetParent() const { return m_parent; }
-
+        
     private:
         GameObject *m_parent = nullptr;
     };

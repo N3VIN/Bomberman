@@ -20,6 +20,21 @@ namespace dae {
         void FixedUpdate();
         void Render() const;
 
+        // TODO: SendMessage function
+
+        void SetLocalPosition(const glm::vec2 &position);
+        void SetLocalRotation(float radians);
+        void SetLocalScale(const glm::vec2 &scale);
+        [[nodiscard]] const glm::vec3 &GetLocalPosition() const;
+        [[nodiscard]] glm::vec2 GetWorldPosition() const;
+        [[nodiscard]] float GetWorldRotation() const;
+        [[nodiscard]] const glm::mat3 &GetWorldTransform() const;
+
+        void SetParent(GameObject *parent, bool keepWorldPosition = true); // can add Scene as a friend to this class to make this member private but I prefer to keep it this way to pervent breaking encapsulation. I will wait for a better counter explaination in class.
+        [[nodiscard]] GameObject *GetParent() const;
+        [[nodiscard]] size_t GetChildCount() const;
+        [[nodiscard]] GameObject *GetChildAt(size_t index) const;
+
         template<typename T>
         T *AddComponent() {
             static_assert(std::is_base_of_v<Component, T>, "T must derive from Component");
@@ -61,13 +76,19 @@ namespace dae {
             }
         }
 
-        // TODO: SendMessage function
-
-        void SetPosition(const glm::vec2 &position);
-        [[nodiscard]] glm::vec2 GetPosition() const;
-
     private:
-        Transform m_transform{}; // following unitys footsteps and not making it a component
+        void AddChild(GameObject *child);
+        void RemoveChild(GameObject *child);
+        bool IsChild(const GameObject *object) const;
+        void SetTransformDirty();
+        void RemoveAndSetNewParent(GameObject* parent);
+
+
+        mutable Transform m_transform{}; // following unitys footsteps and not making it a component
         std::vector<std::unique_ptr<Component> > m_components{};
+
+        // non owning, Scene owns all GameObjects
+        GameObject *m_parent{nullptr};
+        std::vector<GameObject *> m_children{};
     };
 }

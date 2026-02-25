@@ -15,6 +15,7 @@
 #include "Components/RenderComponent.h"
 #include "Components/TextComponent.h"
 #include "Components/FPSComponent.h"
+#include "Components/RotatorComponent.h"
 namespace fs = std::filesystem;
 
 static void load() {
@@ -27,7 +28,7 @@ static void load() {
 
     go = std::make_unique<dae::GameObject>();
     go->AddComponent<dae::RenderComponent>()->SetTexture("logo.png");
-    go->SetPosition(glm::vec2(358, 180));
+    go->SetLocalPosition(glm::vec2(358, 180));
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
@@ -36,7 +37,7 @@ static void load() {
     textComp->SetFont(font);
     textComp->SetText("Programming 4 Assignment");
     textComp->SetColor({255, 255, 0, 255});
-    go->SetPosition(glm::vec2(292, 20));
+    go->SetLocalPosition(glm::vec2(292, 20));
     scene.Add(std::move(go));
 
     go = std::make_unique<dae::GameObject>();
@@ -44,8 +45,32 @@ static void load() {
     fpsText->SetFont(dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36));
     fpsText->SetColor({0, 255, 0, 255});
     go->AddComponent<dae::FPSComponent>();
-    go->SetPosition(glm::vec2(10, 10));
+    go->SetLocalPosition(glm::vec2(10, 10));
     scene.Add(std::move(go));
+
+    //
+
+    auto centerPivot = std::make_unique<dae::GameObject>();
+    centerPivot->SetLocalPosition(glm::vec2(256, 288));
+    auto *centerPtr = centerPivot.get();
+    scene.Add(std::move(centerPivot));
+
+    auto bombermanCW = std::make_unique<dae::GameObject>();
+    bombermanCW->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
+    auto *rotatorCW = bombermanCW->AddComponent<dae::RotatorComponent>();
+    rotatorCW->SetRadius(100.f);
+    rotatorCW->SetSpeed(2.f, true);
+    auto *bombermanCWPtr = bombermanCW.get();
+    bombermanCW->SetParent(centerPtr, false);
+    scene.Add(std::move(bombermanCW));
+
+    auto bombermanCCW = std::make_unique<dae::GameObject>();
+    bombermanCCW->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
+    auto *rotatorCCW = bombermanCCW->AddComponent<dae::RotatorComponent>();
+    rotatorCCW->SetRadius(50.f);
+    rotatorCCW->SetSpeed(2.f, false);
+    bombermanCCW->SetParent(bombermanCWPtr, false);
+    scene.Add(std::move(bombermanCCW));
 }
 
 int main(int, char *[]) {
