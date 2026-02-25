@@ -7,7 +7,7 @@ namespace dae {
     class Scene final {
     public:
         void Add(std::unique_ptr<GameObject> object);
-        void Remove(const GameObject &object);
+        void Remove(GameObject *object);
         void RemoveAll();
 
         void Update(float deltaTime);

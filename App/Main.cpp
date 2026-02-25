@@ -71,6 +71,8 @@ static void load() {
     rotatorCCW->SetSpeed(2.f, false);
     bombermanCCW->SetParent(bombermanCWPtr, false);
     scene.Add(std::move(bombermanCCW));
+
+    // scene.Remove(bombermanCWPtr);
 }
 
 int main(int, char *[]) {

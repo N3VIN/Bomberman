@@ -29,6 +29,10 @@ void dae::Transform::SetDirty() {
     m_isDirty = true;
 }
 
+bool dae::Transform::IsDirty() const {
+    return m_isDirty;
+}
+
 void dae::Transform::UpdateWorldTransform(const glm::mat3 &parentWorld) {
     m_worldTransform = parentWorld * ComputeLocalTransform();
     m_isDirty = false;

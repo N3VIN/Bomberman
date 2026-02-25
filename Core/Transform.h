@@ -11,8 +11,7 @@ namespace dae {
         [[nodiscard]] float GetLocalRotation() const;
         [[nodiscard]] const glm::vec2 &GetLocalScale() const;
         void SetDirty();
-
-        [[nodiscard]] bool IsDirty() const { return m_isDirty; }
+        [[nodiscard]] bool IsDirty() const;
         void UpdateWorldTransform(const glm::mat3 &parentWorld);
         void UpdateWorldTransform();
         [[nodiscard]] const glm::mat3 &GetWorldTransform() const;

@@ -10,12 +10,22 @@ void Scene::Add(std::unique_ptr<GameObject> object) {
     m_objects.emplace_back(std::move(object));
 }
 
-void Scene::Remove(const GameObject &object) {
-    for (auto &go: m_objects) {
-        if (go.get() == &object) {
-            m_markedObjects.emplace_back(std::move(go));
+void Scene::Remove(GameObject *object) {
+    const auto it = std::ranges::find_if(
+        m_objects, [object](const auto &go) {
+            return go.get() == object;
         }
+    );
+
+    if (it == m_objects.end())
+        return;
+
+    while (object->GetChildCount() > 0) {
+        Remove(object->GetChildAt(0)); // recursively delete all the children
     }
+
+    object->SetParent(nullptr);
+    m_markedObjects.emplace_back(std::move(*it));
 }
 
 void Scene::RemoveAll() {
