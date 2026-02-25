@@ -8,7 +8,7 @@ dae::RotatorComponent::RotatorComponent(GameObject *parent)
     : Component(parent) {}
 
 void dae::RotatorComponent::SetSpeed(float period, bool isClockwise) {
-    auto direction = isClockwise ? -1.f : 1.f;
+    auto direction = isClockwise ? 1.f : -1.f;
 
     m_speed = direction * 2 * static_cast<float>(std::numbers::pi) / period;
 }
