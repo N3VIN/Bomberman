@@ -29,6 +29,7 @@ add_library(Core STATIC
   Core/Components/TextComponent.cpp
   Core/Components/FPSComponent.cpp
   Core/Components/RotatorComponent.cpp
+  Core/Components/CacheBenchmarkComponent.cpp
 )
 
 # Main executable
@@ -134,6 +135,15 @@ target_include_directories(imgui PUBLIC ${imgui_SOURCE_DIR} ${sdl3_SOURCE_DIR}/i
 target_link_libraries(imgui PUBLIC SDL3::SDL3)
 target_compile_features(imgui PUBLIC cxx_std_23)
 
+# Add imgui-plot
+set(IMGUI_INCLUDE_DIR ${imgui_SOURCE_DIR})
+FetchContent_Declare(
+  imgui_plot
+  GIT_REPOSITORY https://github.com/soulthreads/imgui-plot.git
+  GIT_SHALLOW TRUE
+)
+FetchContent_MakeAvailable(imgui_plot)
+
 if (WIN32)
   # Add VLD (Visual Leak Detector) for memory leak detection on Windows
   find_package(VLD CONFIG)
@@ -155,6 +165,7 @@ target_link_libraries(Core PUBLIC
   SDL3_ttf::SDL3_ttf
   glm::glm
   imgui
+  imgui_plot
   ${VLD_LIBRARIES}
 )
 

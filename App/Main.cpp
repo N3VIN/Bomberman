@@ -16,6 +16,7 @@
 #include "Components/TextComponent.h"
 #include "Components/FPSComponent.h"
 #include "Components/RotatorComponent.h"
+#include "Components/CacheBenchmarkComponent.h"
 namespace fs = std::filesystem;
 
 static void load() {
@@ -72,7 +73,9 @@ static void load() {
     bombermanCCW->SetParent(bombermanCWPtr, false);
     scene.Add(std::move(bombermanCCW));
 
-    // scene.Remove(bombermanCWPtr);
+    go = std::make_unique<dae::GameObject>();
+    go->AddComponent<dae::CacheBenchmarkComponent>();
+    scene.Add(std::move(go));
 }
 
 int main(int, char *[]) {
