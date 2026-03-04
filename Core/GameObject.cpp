@@ -44,43 +44,34 @@ const glm::vec3 &dae::GameObject::GetLocalPosition() const {
     return m_transform.GetLocalPosition();
 }
 
+float dae::GameObject::GetLocalRotation() const {
+    return m_transform.GetLocalRotation();
+}
+
+const glm::vec2 &dae::GameObject::GetLocalScale() const {
+    return m_transform.GetLocalScale();
+}
+
 glm::vec2 dae::GameObject::GetWorldPosition() const {
-    if (m_transform.IsDirty()) {
-        if (m_parent) {
-            m_transform.UpdateWorldTransform(m_parent->GetWorldTransform());
-        }
-        else {
-            m_transform.UpdateWorldTransform();
-        }
-    }
+    UpdateWorldTransform();
     return m_transform.GetWorldPosition();
 }
 
 float dae::GameObject::GetWorldRotation() const {
-    if (m_transform.IsDirty()) {
-        if (m_parent) {
-            m_transform.UpdateWorldTransform(m_parent->GetWorldTransform());
-        }
-        else {
-            m_transform.UpdateWorldTransform();
-        }
-    }
+    UpdateWorldTransform();
     return m_transform.GetWorldRotation();
 }
 
+glm::vec2 dae::GameObject::GetWorldScale() const {
+    return m_transform.GetWorldScale();
+}
+
 const glm::mat3 &dae::GameObject::GetWorldTransform() const {
-    if (m_transform.IsDirty()) {
-        if (m_parent) {
-            m_transform.UpdateWorldTransform(m_parent->GetWorldTransform());
-        }
-        else {
-            m_transform.UpdateWorldTransform();
-        }
-    }
+    UpdateWorldTransform();
     return m_transform.GetWorldTransform();
 }
 
-void dae::GameObject::SetTransformDirty() {
+void dae::GameObject::SetTransformDirty() const {
     m_transform.SetDirty();
     for (auto *child: m_children) {
         child->SetTransformDirty();
@@ -99,13 +90,20 @@ void dae::GameObject::RemoveAndSetNewParent(GameObject *parent) {
     }
 }
 
+void dae::GameObject::UpdateWorldTransform() const {
+    if (m_transform.IsDirty()) {
+        if (m_parent) {
+            m_transform.UpdateWorldTransform(m_parent->GetWorldTransform());
+        }
+        else {
+            m_transform.UpdateWorldTransform();
+        }
+    }
+}
+
 void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition) {
     if (parent == this || m_parent == parent)
         return;
-
-    if (IsChild(parent)) { // if new parent is a child detach first
-        parent->SetParent(m_parent);
-    }
 
     if (keepWorldPosition) {
         const auto currentWorld = GetWorldTransform(); // save the old transform to apply it later

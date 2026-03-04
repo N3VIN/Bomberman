@@ -15,8 +15,9 @@ namespace dae {
         void UpdateWorldTransform(const glm::mat3 &parentWorld);
         void UpdateWorldTransform();
         [[nodiscard]] const glm::mat3 &GetWorldTransform() const;
-        [[nodiscard]] glm::vec2 GetWorldPosition() const;
+        [[nodiscard]] const glm::vec2 GetWorldPosition() const;
         [[nodiscard]] float GetWorldRotation() const;
+        [[nodiscard]] glm::vec2 GetWorldScale() const;
 
     private:
         [[nodiscard]] glm::mat3 ComputeLocalTransform() const;

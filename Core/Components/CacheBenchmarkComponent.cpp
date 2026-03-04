@@ -22,20 +22,23 @@ namespace dae {
         for (int stepSize = 1; stepSize <= 1024; stepSize *= 2) {
             timings.clear();
 
-            for (int run = 0; run < 10; run++) {
+            for (int run = 0; run < m_samples; run++) {
                 const auto start = std::chrono::high_resolution_clock::now();
                 for (int i = 0; i < size; i += stepSize) {
                     buffer[i].id *= 2;
                 }
+
                 const auto end = std::chrono::high_resolution_clock::now();
                 const float elapsed = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() / 1000.f;
                 timings.push_back(elapsed);
             }
 
             // remove outliers
-            std::ranges::sort(timings);
-            timings.erase(timings.begin());
-            timings.pop_back();
+            if (timings.size() > 2) {
+                std::ranges::sort(timings);
+                timings.erase(timings.begin());
+                timings.pop_back();
+            }
 
             const float sum = std::accumulate(timings.begin(), timings.end(), 0.0f);
             const float avg = sum / static_cast<float>(timings.size());
@@ -70,6 +73,9 @@ namespace dae {
 
     void CacheBenchmarkComponent::Render() const {
         ImGui::Begin("Cache Benchmark");
+
+        ImGui::InputInt("# Samples", &m_samples, 1, 10);
+        m_samples = std::clamp(m_samples, 1, 100);
 
         if (!m_benchmarkDone && !m_benchmarkRequested) {
             if (ImGui::Button("Run Benchmark")) {
@@ -119,7 +125,7 @@ namespace dae {
                 conf.values.colors = colors;
                 conf.values.count = static_cast<int>(m_timings.size());
                 conf.scale.min = 0;
-                conf.scale.max = maxVal * 1.1f;
+                conf.scale.max = maxVal;
                 conf.tooltip.show = false;
                 conf.grid_y.show = true;
                 conf.grid_y.size = maxVal / 5.f;

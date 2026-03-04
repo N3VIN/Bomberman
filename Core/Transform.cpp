@@ -47,12 +47,18 @@ const glm::mat3 &dae::Transform::GetWorldTransform() const {
     return m_worldTransform;
 }
 
-glm::vec2 dae::Transform::GetWorldPosition() const {
+const glm::vec2 dae::Transform::GetWorldPosition() const {
     return {m_worldTransform[2][0], m_worldTransform[2][1]};
 }
 
 float dae::Transform::GetWorldRotation() const {
     return std::atan2(m_worldTransform[0][1], m_worldTransform[0][0]);
+}
+
+glm::vec2 dae::Transform::GetWorldScale() const {
+    const float sx = glm::length(glm::vec2(m_worldTransform[0][0], m_worldTransform[0][1]));
+    const float sy = glm::length(glm::vec2(m_worldTransform[1][0], m_worldTransform[1][1]));
+    return {sx, sy};
 }
 
 glm::mat3 dae::Transform::ComputeLocalTransform() const {

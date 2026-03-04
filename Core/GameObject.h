@@ -26,11 +26,14 @@ namespace dae {
         void SetLocalRotation(float radians);
         void SetLocalScale(const glm::vec2 &scale);
         [[nodiscard]] const glm::vec3 &GetLocalPosition() const;
+        [[nodiscard]] float GetLocalRotation() const;
+        [[nodiscard]] const glm::vec2 &GetLocalScale() const;
         [[nodiscard]] glm::vec2 GetWorldPosition() const;
         [[nodiscard]] float GetWorldRotation() const;
+        [[nodiscard]] glm::vec2 GetWorldScale() const;
         [[nodiscard]] const glm::mat3 &GetWorldTransform() const;
 
-        void SetParent(GameObject *parent, bool keepWorldPosition = true); // can add Scene as a friend to this class to make this member private but I prefer to keep it this way to pervent breaking encapsulation. I will wait for a better counter explaination in class.
+        void SetParent(GameObject *parent, bool keepWorldPosition = true);
         [[nodiscard]] GameObject *GetParent() const;
         [[nodiscard]] size_t GetChildCount() const;
         [[nodiscard]] GameObject *GetChildAt(size_t index) const;
@@ -80,8 +83,9 @@ namespace dae {
         void AddChild(GameObject *child);
         void RemoveChild(GameObject *child);
         bool IsChild(const GameObject *object) const;
-        void SetTransformDirty();
+        void SetTransformDirty() const;
         void RemoveAndSetNewParent(GameObject *parent);
+        void UpdateWorldTransform() const;
 
 
         mutable Transform m_transform{}; // following unitys footsteps and not making it a component

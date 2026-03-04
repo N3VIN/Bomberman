@@ -45,6 +45,8 @@ namespace dae {
         std::vector<BenchmarkResult> m_resultsPtr;
         std::vector<float> m_timingsPtr;
 
+        mutable int m_samples = 10;
+
         mutable bool m_benchmarkDone = false;
         mutable bool m_benchmarkRequested = false;
     };
