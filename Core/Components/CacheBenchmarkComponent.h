@@ -2,6 +2,8 @@
 #include "Component.h"
 #include <vector>
 
+#include <imgui.h>
+
 namespace dae {
     struct TransformAlt {
         float matrix[16] = {
@@ -35,19 +37,21 @@ namespace dae {
             float avgTimeMs;
         };
 
-        template<typename T>
-        std::vector<BenchmarkResult> RunBenchmark();
+        template<typename T, typename ModifyFunc>
+        std::vector<BenchmarkResult> RunBenchmark(int samples, ModifyFunc modify);
 
-        std::vector<BenchmarkResult> m_results;
-        std::vector<float> m_timings;
-        std::vector<float> m_stepLabels;
+        struct BenchmarkState {
+            std::vector<BenchmarkResult> results;
+            std::vector<BenchmarkResult> resultsAlt; // only for GameObject3DAlt
+            std::vector<float> timings;
+            std::vector<float> timingsAlt;
+            std::vector<float> stepLabels;
+            int samples = 10;
+            bool done = false;
+            bool requested = false;
+        };
 
-        std::vector<BenchmarkResult> m_resultsPtr;
-        std::vector<float> m_timingsPtr;
-
-        mutable int m_samples = 10;
-
-        mutable bool m_benchmarkDone = false;
-        mutable bool m_benchmarkRequested = false;
+        mutable BenchmarkState m_gameObjectBenchmark;
+        mutable BenchmarkState m_intBenchmark;
     };
 } // dae
