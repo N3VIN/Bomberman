@@ -35,9 +35,9 @@ namespace dae {
 
             // remove outliers
             if (timings.size() > 2) {
-                std::ranges::sort(timings);
-                timings.erase(timings.begin());
-                timings.pop_back();
+                auto [min, max] = std::ranges::minmax(timings);
+                std::erase(timings, min);
+                std::erase(timings, max);
             }
 
             const float sum = std::accumulate(timings.begin(), timings.end(), 0.0f);
@@ -53,12 +53,14 @@ namespace dae {
     void CacheBenchmarkComponent::Update(float /*deltaTime*/) {
         if (m_gameObjectBenchmark.requested) {
             m_gameObjectBenchmark.results = RunBenchmark<GameObject3D>(m_gameObjectBenchmark.samples, [](GameObject3D &o) {
-                o.id *= 2;
-            });
+                                                                           o.id *= 2;
+                                                                       }
+            );
 
             m_gameObjectBenchmark.resultsAlt = RunBenchmark<GameObject3DAlt>(m_gameObjectBenchmark.samples, [](GameObject3DAlt &o) {
-                o.id *= 2;
-            });
+                                                                                 o.id *= 2;
+                                                                             }
+            );
 
             m_gameObjectBenchmark.timings.clear();
             m_gameObjectBenchmark.timingsAlt.clear();
@@ -75,7 +77,10 @@ namespace dae {
         }
 
         if (m_intBenchmark.requested) {
-            m_intBenchmark.results = RunBenchmark<int>(m_intBenchmark.samples, [](int &v) { v *= 2; });
+            m_intBenchmark.results = RunBenchmark<int>(m_intBenchmark.samples, [](int &v) {
+                                                           v *= 2;
+                                                       }
+            );
 
             m_intBenchmark.timings.clear();
             m_intBenchmark.stepLabels.clear();
@@ -184,12 +189,12 @@ namespace dae {
                     ImGui::TableSetupColumn("Int (ms)");
                     ImGui::TableHeadersRow();
 
-                    for (size_t i = 0; i < m_intBenchmark.results.size(); i++) {
+                    for (auto &[stepSize, avgTimeMs]: m_intBenchmark.results) {
                         ImGui::TableNextRow();
                         ImGui::TableNextColumn();
-                        ImGui::Text("%d", m_intBenchmark.results[i].stepSize);
+                        ImGui::Text("%d", stepSize);
                         ImGui::TableNextColumn();
-                        ImGui::Text("%.4f", m_intBenchmark.results[i].avgTimeMs);
+                        ImGui::Text("%.4f", avgTimeMs);
                     }
                     ImGui::EndTable();
                 }

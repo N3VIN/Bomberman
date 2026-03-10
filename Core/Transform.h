@@ -7,6 +7,7 @@ namespace dae {
         void SetLocalPosition(const glm::vec3 &position);
         void SetLocalRotation(float radians);
         void SetLocalScale(const glm::vec2 &scale);
+        void SetLocalFromMatrix(const glm::mat3 &matrix);
         [[nodiscard]] const glm::vec3 &GetLocalPosition() const;
         [[nodiscard]] float GetLocalRotation() const;
         [[nodiscard]] const glm::vec2 &GetLocalScale() const;
@@ -15,7 +16,7 @@ namespace dae {
         void UpdateWorldTransform(const glm::mat3 &parentWorld);
         void UpdateWorldTransform();
         [[nodiscard]] const glm::mat3 &GetWorldTransform() const;
-        [[nodiscard]] const glm::vec2 GetWorldPosition() const;
+        [[nodiscard]] glm::vec2 GetWorldPosition() const;
         [[nodiscard]] float GetWorldRotation() const;
         [[nodiscard]] glm::vec2 GetWorldScale() const;
 

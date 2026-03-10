@@ -112,22 +112,10 @@ void dae::GameObject::SetParent(GameObject *parent, bool keepWorldPosition) {
         if (parent) {
             const auto parentWorld = parent->GetWorldTransform();
             const auto newLocal = glm::inverse(parentWorld) * currentWorld;
-
-            m_transform.SetLocalPosition(glm::vec3(newLocal[2][0], newLocal[2][1], 0.f));
-            m_transform.SetLocalRotation(std::atan2(newLocal[0][1], newLocal[0][0]));
-
-            const float sx = glm::length(glm::vec2(newLocal[0][0], newLocal[0][1]));
-            const float sy = glm::length(glm::vec2(newLocal[1][0], newLocal[1][1]));
-            m_transform.SetLocalScale(glm::vec2(sx, sy));
+            m_transform.SetLocalFromMatrix(newLocal);
         }
         else {
-            // no parent means local = world
-            m_transform.SetLocalPosition(glm::vec3(currentWorld[2][0], currentWorld[2][1], 0.f));
-            m_transform.SetLocalRotation(std::atan2(currentWorld[0][1], currentWorld[0][0]));
-
-            const float sx = glm::length(glm::vec2(currentWorld[0][0], currentWorld[0][1]));
-            const float sy = glm::length(glm::vec2(currentWorld[1][0], currentWorld[1][1]));
-            m_transform.SetLocalScale(glm::vec2(sx, sy));
+            m_transform.SetLocalFromMatrix(currentWorld);
         }
 
         SetTransformDirty();

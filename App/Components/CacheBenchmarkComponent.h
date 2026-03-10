@@ -1,8 +1,6 @@
 #pragma once
-#include "Component.h"
+#include "../../Core/Components/Component.h"
 #include <vector>
-
-#include <imgui.h>
 
 namespace dae {
     struct TransformAlt {

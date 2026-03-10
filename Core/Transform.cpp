@@ -13,6 +13,15 @@ void dae::Transform::SetLocalScale(const glm::vec2 &scale) {
     m_localScale = scale;
 }
 
+void dae::Transform::SetLocalFromMatrix(const glm::mat3 &matrix) {
+    m_localPosition = glm::vec3(matrix[2][0], matrix[2][1], 0.f);
+    m_localRotation = std::atan2(matrix[0][1], matrix[0][0]);
+    m_localScale = {
+        glm::length(glm::vec2(matrix[0][0], matrix[0][1])),
+        glm::length(glm::vec2(matrix[1][0], matrix[1][1]))
+    };
+}
+
 const glm::vec3 &dae::Transform::GetLocalPosition() const {
     return m_localPosition;
 }
@@ -47,7 +56,7 @@ const glm::mat3 &dae::Transform::GetWorldTransform() const {
     return m_worldTransform;
 }
 
-const glm::vec2 dae::Transform::GetWorldPosition() const {
+glm::vec2 dae::Transform::GetWorldPosition() const {
     return {m_worldTransform[2][0], m_worldTransform[2][1]};
 }
 
