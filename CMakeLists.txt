@@ -16,8 +16,9 @@ endif()
 # Core static library
 add_library(Core STATIC
   Core/Font.cpp
+        Core/Input/Gamepad.cpp
   Core/GameObject.cpp
-  Core/InputManager.cpp
+        Core/Input/InputManager.cpp
   Core/Minigin.cpp
   Core/Renderer.cpp
   Core/ResourceManager.cpp
@@ -168,6 +169,10 @@ target_link_libraries(Core PUBLIC
   imgui_plot
   ${VLD_LIBRARIES}
 )
+
+if(WIN32 AND NOT EMSCRIPTEN)
+  target_link_libraries(Core PRIVATE xinput)
+endif()
 
 # Executable configuration
 target_include_directories("${TARGET_NAME}" PUBLIC
