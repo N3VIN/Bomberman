@@ -90,7 +90,7 @@ public:
         return m_currentButtons;
     }
 
-    [[nodiscard]] unsigned int GetIndex(Button button) const {
+    [[nodiscard]] unsigned int GetIndex() const {
         return m_controllerIndex;
     }
 
