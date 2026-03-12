@@ -18,7 +18,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
-#include "GameTime.h"
+#include "TimeManager.h"
 
 SDL_Window *g_window{};
 
@@ -103,23 +103,23 @@ void dae::Minigin::Run(const std::function<void()> &load) {
 
 void dae::Minigin::RunOneFrame() {
     const auto currentTime = std::chrono::high_resolution_clock::now();
-    Time::deltaTime = std::chrono::duration<float>(currentTime - m_lastTime).count();
+    Time::GetInstance().deltaTime = std::chrono::duration<float>(currentTime - m_lastTime).count();
     m_lastTime = currentTime;
-    m_lag += Time::deltaTime;
+    m_lag += Time::GetInstance().deltaTime;
 
     m_quit = !InputManager::GetInstance().ProcessInput();
 
-    while (m_lag >= Time::fixedDeltaTime) {
+    while (m_lag >= Time::GetInstance().fixedDeltaTime) {
         SceneManager::GetInstance().FixedUpdate();
-        m_lag -= Time::fixedDeltaTime;
+        m_lag -= Time::GetInstance().fixedDeltaTime;
     }
 
-    SceneManager::GetInstance().Update(Time::deltaTime);
+    SceneManager::GetInstance().Update(Time::GetInstance().deltaTime);
     Renderer::GetInstance().Render();
 
     // sleep only for the native build, browser handles the RequestAnimationFrame
 #ifndef __EMSCRIPTEN__
-    const auto sleepTime = currentTime + std::chrono::milliseconds(Time::MS_PER_FRAME) - std::chrono::high_resolution_clock::now();
+    const auto sleepTime = currentTime + std::chrono::milliseconds(Time::GetInstance().MS_PER_FRAME) - std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(sleepTime);
 #endif
 }

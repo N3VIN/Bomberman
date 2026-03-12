@@ -27,16 +27,16 @@ public:
         }
     }
 
-    [[nodiscard]] unsigned int GetPressed() const {
-        return m_pressed;
+    [[nodiscard]] unsigned int GetPressed(Button button) const {
+        return m_pressed & static_cast<unsigned int>(button);
     }
 
-    [[nodiscard]] unsigned int GetReleased() const {
-        return m_released;
+    [[nodiscard]] unsigned int GetReleased(Button button) const {
+        return m_released & static_cast<unsigned int>(button);
     }
 
-    [[nodiscard]] unsigned int GetCurrent() const {
-        return m_currentButtons;
+    [[nodiscard]] unsigned int GetCurrent(Button button) const {
+        return m_currentButtons & static_cast<unsigned int>(button);
     }
 
     [[nodiscard]] unsigned int GetIndex() const {
@@ -78,10 +78,21 @@ public:
         m_released = changes & ~m_currentButtons;
     }
 
-    [[nodiscard]] unsigned int GetPressed() const { return m_pressed; }
-    [[nodiscard]] unsigned int GetReleased() const { return m_released; }
-    [[nodiscard]] unsigned int GetCurrent() const { return m_currentButtons; }
-    [[nodiscard]] unsigned int GetIndex() const { return m_controllerIndex; }
+    [[nodiscard]] unsigned int GetPressed(Button button) const {
+        return m_pressed & static_cast<unsigned int>(button);
+    }
+
+    [[nodiscard]] unsigned int GetReleased(Button button) const {
+        return m_released;
+    }
+
+    [[nodiscard]] unsigned int GetCurrent(Button button) const {
+        return m_currentButtons;
+    }
+
+    [[nodiscard]] unsigned int GetIndex(Button button) const {
+        return m_controllerIndex;
+    }
 
 private:
     void TryOpen() {
@@ -146,16 +157,16 @@ void dae::Gamepad::Update() {
     m_pImpl->Update();
 }
 
-bool dae::Gamepad::IsDown(Button b) const {
-    return m_pImpl->GetPressed() & static_cast<unsigned int>(b);
+bool dae::Gamepad::IsDown(Button button) const {
+    return m_pImpl->GetPressed(button);
 }
 
-bool dae::Gamepad::IsUp(Button b) const {
-    return m_pImpl->GetReleased() & static_cast<unsigned int>(b);
+bool dae::Gamepad::IsUp(Button button) const {
+    return m_pImpl->GetReleased(button);
 }
 
-bool dae::Gamepad::IsPressed(Button b) const {
-    return m_pImpl->GetCurrent() & static_cast<unsigned int>(b);
+bool dae::Gamepad::IsPressed(Button button) const {
+    return m_pImpl->GetCurrent(button);
 }
 
 unsigned int dae::Gamepad::GetIndex() const {

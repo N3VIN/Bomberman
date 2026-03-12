@@ -10,7 +10,11 @@
 #include <array>
 
 namespace dae {
-    enum class KeyState { Down, Up, Pressed };
+    enum class KeyState {
+        Down,
+        Up,
+        Pressed
+    };
 
     class InputManager final : public Singleton<InputManager> {
     public:
