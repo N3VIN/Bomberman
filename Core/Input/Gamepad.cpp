@@ -83,11 +83,11 @@ public:
     }
 
     [[nodiscard]] unsigned int GetReleased(Button button) const {
-        return m_released;
+        return m_released & static_cast<unsigned int>(button);
     }
 
     [[nodiscard]] unsigned int GetCurrent(Button button) const {
-        return m_currentButtons;
+        return m_currentButtons & static_cast<unsigned int>(button);
     }
 
     [[nodiscard]] unsigned int GetIndex() const {
