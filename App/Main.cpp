@@ -95,7 +95,7 @@ static void load() {
 
     auto &input = dae::InputManager::GetInstance();
     constexpr float speed1 = 100.f;
-    constexpr float speed2 = 200.f; // double
+    constexpr float speed2 = 200.f;
 
     // Player 1 — WASD
     input.BindCommand(SDL_SCANCODE_W, dae::KeyState::Pressed, std::make_unique<dae::MoveCommand>(p1, glm::vec2{0, -1}, speed1));
