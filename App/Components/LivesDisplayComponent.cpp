@@ -1,20 +1,23 @@
 #include "LivesDisplayComponent.h"
 #include "GameObject.h"
+#include "HealthComponent.h"
 #include "Components/TextComponent.h"
 
 namespace dae {
     LivesDisplayComponent::LivesDisplayComponent(GameObject *owner, int startingLives)
         : Component(owner)
-      , m_lives(startingLives)
-      , m_text(owner->GetComponent<TextComponent>()) {
-        m_text->SetText("Lives: " + std::to_string(m_lives));
+      , m_textComponent(owner->GetComponent<TextComponent>()) {
+        m_textComponent->SetText("Lives: " + std::to_string(startingLives)); // TODO: startingLives is only used to display the initial text. find a way to remove this dependancy.
     }
 
-    void LivesDisplayComponent::OnNotify(GameObject * /*gameObject*/, GameEvent event) {
+    void LivesDisplayComponent::OnNotify(GameObject *gameObject, GameEvent event) {
+        if (!m_healthComponent) {
+            m_healthComponent = gameObject->GetComponent<HealthComponent>();
+        }
+
         if (event == GameEvent::PlayerDied) {
-            if (m_lives > 0)
-                --m_lives;
-            m_text->SetText("Lives: " + std::to_string(m_lives));
+            const int lives = m_healthComponent->GetLives();
+            m_textComponent->SetText("Lives: " + std::to_string(lives));
         }
     }
 }

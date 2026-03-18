@@ -7,10 +7,15 @@ namespace dae {
     class DieCommand final : public GameObjectCommand {
     public:
         explicit DieCommand(GameObject *gameObject)
-            : GameObjectCommand(gameObject) {}
+            : GameObjectCommand(gameObject) {
+            m_healthComponent = gameObject->GetComponent<HealthComponent>();
+        }
 
         void Execute() override {
-            GetGameObject()->GetComponent<HealthComponent>()->Die();
+            m_healthComponent->Die();
         }
+
+    private:
+        HealthComponent *m_healthComponent{nullptr};
     };
 }

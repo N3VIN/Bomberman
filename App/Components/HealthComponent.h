@@ -5,10 +5,10 @@
 namespace dae {
     class HealthComponent final : public Component, public Subject {
     public:
-        explicit HealthComponent(GameObject *gameObject, int lives = 3);
+        explicit HealthComponent(GameObject *gameObject, int lives);
 
         void Die();
-        [[nodiscard]] int GetLives() const { return m_lives; }
+        [[nodiscard]] int GetLives() const;
 
     private:
         int m_lives;

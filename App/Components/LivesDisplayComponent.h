@@ -4,15 +4,16 @@
 
 namespace dae {
     class TextComponent;
+    class HealthComponent;
 
     class LivesDisplayComponent final : public Component, public Observer {
     public:
-        explicit LivesDisplayComponent(GameObject *owner, int startingLives = 3);
+        explicit LivesDisplayComponent(GameObject *owner, int startingLives);
 
         void OnNotify(GameObject *gameObject, GameEvent event) override;
 
     private:
-        int m_lives;
-        TextComponent *m_text;
+        TextComponent *m_textComponent;
+        HealthComponent *m_healthComponent{nullptr};
     };
 }

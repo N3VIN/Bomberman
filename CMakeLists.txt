@@ -33,6 +33,10 @@ add_library(Core STATIC
         App/Components/CacheBenchmarkComponent.cpp
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp
+        App/Components/PickupComponent.cpp
+        App/Components/PickupComponent.h
+        App/Components/ScoreDisplayComponent.cpp
+        App/Components/ScoreDisplayComponent.h
 )
 
 # Main executable

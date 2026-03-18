@@ -12,4 +12,8 @@ namespace dae {
             Notify(GetParent(), GameEvent::PlayerDied);
         }
     }
+
+    int HealthComponent::GetLives() const {
+        return m_lives;
+    }
 }

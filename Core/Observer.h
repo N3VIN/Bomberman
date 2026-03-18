@@ -6,6 +6,7 @@ namespace dae {
 
     enum class GameEvent {
         PlayerDied,
+        PickupPicked
     };
 
     class Observer {

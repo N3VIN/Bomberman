@@ -1,0 +1,23 @@
+﻿#pragma once
+#include "Command.h"
+#include "GameObject.h"
+#include "../Components/PickupComponent.h"
+
+namespace dae {
+    class ScoreCommand final : public GameObjectCommand {
+    public:
+        ScoreCommand(GameObject *gameObject, int score)
+            : GameObjectCommand(gameObject)
+          , m_score(score) {
+            m_pickupComponent = gameObject->GetComponent<PickupComponent>();
+        }
+
+        void Execute() override {
+            m_pickupComponent->OnPickup(m_score);
+        }
+
+    private:
+        int m_score;
+        PickupComponent *m_pickupComponent{nullptr};
+    };
+}
