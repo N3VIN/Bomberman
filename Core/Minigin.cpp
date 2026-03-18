@@ -3,11 +3,18 @@
 #include <iostream>
 
 #if WIN32
-#define WIN32_LEAN_AND_MEAN 
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
 
 #include <SDL3/SDL.h>
+
+#if USE_STEAMWORKS
+#pragma warning (push)
+#pragma warning (disable:4996)
+#include <steam_api.h>
+#pragma warning (pop)
+#endif
 //#include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 #include "Minigin.h"
@@ -56,6 +63,11 @@ void PrintSDLVersion() {
 }
 
 dae::Minigin::Minigin(const std::filesystem::path &dataPath) {
+#if USE_STEAMWORKS
+    if (!SteamAPI_Init())
+        throw std::runtime_error(std::string("Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)."));
+#endif
+
     PrintSDLVersion();
 
     std::cout << "Loading minigin data..." << std::endl;
@@ -84,6 +96,10 @@ dae::Minigin::~Minigin() {
     SDL_DestroyWindow(g_window);
     g_window = nullptr;
     SDL_Quit();
+
+#if USE_STEAMWORKS
+    SteamAPI_Shutdown();
+#endif
 }
 
 void dae::Minigin::Run(const std::function<void()> &load) {
@@ -106,6 +122,10 @@ void dae::Minigin::RunOneFrame() {
     Time::GetInstance().deltaTime = std::chrono::duration<float>(currentTime - m_lastTime).count();
     m_lastTime = currentTime;
     m_lag += Time::GetInstance().deltaTime;
+
+#if USE_STEAMWORKS
+    SteamAPI_RunCallbacks();
+#endif
 
     m_quit = !InputManager::GetInstance().ProcessInput();
 

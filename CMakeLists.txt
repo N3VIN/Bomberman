@@ -34,9 +34,8 @@ add_library(Core STATIC
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp
         App/Components/PickupComponent.cpp
-        App/Components/PickupComponent.h
         App/Components/ScoreDisplayComponent.cpp
-        App/Components/ScoreDisplayComponent.h
+        App/Components/SteamAchievementComponent.cpp
 )
 
 # Main executable
@@ -159,6 +158,11 @@ endif ()
 # Add steam if available
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake/steam")
 find_package(Steamworks QUIET)
+
+if (Steamworks_FOUND)
+    target_link_libraries(Core PUBLIC Steamworks::Steamworks)
+    target_compile_definitions(Core PUBLIC USE_STEAMWORKS)
+endif ()
 
 # Core library configuration
 target_include_directories(Core PUBLIC

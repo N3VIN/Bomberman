@@ -21,6 +21,7 @@
 #include "Components/LivesDisplayComponent.h"
 #include "Components/PickupComponent.h"
 #include "Components/ScoreDisplayComponent.h"
+#include "Components/SteamAchievementComponent.h"
 #include "../Core/Input/InputManager.h"
 #include "../Core/Input/Gamepad.h"
 #include "Commands/MoveCommand.h"
@@ -86,6 +87,7 @@ static void load() {
     player1->SetLocalPosition(glm::vec2(300, 300));
     auto *p1Health = player1->AddComponent<dae::HealthComponent>(startingLives);
     auto *p1Pickup = player1->AddComponent<dae::PickupComponent>();
+    auto *p1Achievement = player1->AddComponent<dae::SteamAchievementComponent>();
     auto *p1 = player1.get();
     scene.Add(std::move(player1));
 
@@ -107,6 +109,7 @@ static void load() {
     scoreText1->SetColor({255, 255, 255, 255});
     auto *scoreComp1 = scoreDisplay1->AddComponent<dae::ScoreDisplayComponent>();
     p1Pickup->AddObserver(scoreComp1);
+    p1Pickup->AddObserver(p1Achievement);
     scene.Add(std::move(scoreDisplay1));
 
     // player 2
@@ -115,6 +118,7 @@ static void load() {
     player2->SetLocalPosition(glm::vec2(500, 300));
     auto *p2Health = player2->AddComponent<dae::HealthComponent>(startingLives);
     auto *p2Pickup = player2->AddComponent<dae::PickupComponent>();
+    auto *p2Achievement = player2->AddComponent<dae::SteamAchievementComponent>();
     auto *p2 = player2.get();
     scene.Add(std::move(player2));
 
@@ -136,6 +140,7 @@ static void load() {
     scoreText2->SetColor({255, 200, 100, 255});
     auto *scoreComp2 = scoreDisplay2->AddComponent<dae::ScoreDisplayComponent>();
     p2Pickup->AddObserver(scoreComp2);
+    p2Pickup->AddObserver(p2Achievement);
     scene.Add(std::move(scoreDisplay2));
 
     auto &input = dae::InputManager::GetInstance();
