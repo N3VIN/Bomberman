@@ -31,6 +31,8 @@ add_library(Core STATIC
   Core/Components/FPSComponent.cpp
   Core/Components/RotatorComponent.cpp
         App/Components/CacheBenchmarkComponent.cpp
+        App/Components/HealthComponent.cpp
+        App/Components/LivesDisplayComponent.cpp
 )
 
 # Main executable

@@ -38,10 +38,10 @@ namespace dae {
         [[nodiscard]] size_t GetChildCount() const;
         [[nodiscard]] GameObject *GetChildAt(size_t index) const;
 
-        template<typename T>
-        T *AddComponent() {
+        template<typename T, typename... Args>
+        T *AddComponent(Args&&... args) {
             static_assert(std::is_base_of_v<Component, T>, "T must derive from Component");
-            auto &component = m_components.emplace_back(std::make_unique<T>(this));
+            auto &component = m_components.emplace_back(std::make_unique<T>(this, std::forward<Args>(args)...));
             return static_cast<T *>(component.get());
         }
 
