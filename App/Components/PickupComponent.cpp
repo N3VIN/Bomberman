@@ -1,9 +1,8 @@
 ﻿#include "PickupComponent.h"
 
 namespace dae {
-    PickupComponent::PickupComponent(GameObject *gameObject, int score)
-        : Component(gameObject)
-      , m_score(score) {}
+    PickupComponent::PickupComponent(GameObject *gameObject)
+        : Component(gameObject) {}
 
     void PickupComponent::OnPickup(int value) {
         m_score += value;

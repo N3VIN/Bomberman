@@ -4,10 +4,10 @@
 #include "Components/TextComponent.h"
 
 namespace dae {
-    ScoreDisplayComponent::ScoreDisplayComponent(GameObject *owner, int startingScore)
+    ScoreDisplayComponent::ScoreDisplayComponent(GameObject *owner)
         : Component(owner)
       , m_textComponent(owner->GetComponent<TextComponent>()) {
-        m_textComponent->SetText("Score: " + std::to_string(startingScore)); // TODO: startingScore is only used to display the initial text. find a way to remove this dependancy.
+        m_textComponent->SetText("Score: " + std::to_string(0));
     }
 
     void ScoreDisplayComponent::OnNotify(GameObject *gameObject, GameEvent event) {

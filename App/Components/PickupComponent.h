@@ -4,13 +4,13 @@
 
 namespace dae {
     class PickupComponent final : public Component, public Subject {
-        public:
-        explicit PickupComponent(GameObject *gameObject, int score);
+    public:
+        explicit PickupComponent(GameObject *gameObject);
 
         void OnPickup(int value);
         [[nodiscard]] int GetScore() const;
 
     private:
-        int m_score;
+        int m_score{0};
     };
 }

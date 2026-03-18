@@ -4,9 +4,9 @@
 #include "../Components/HealthComponent.h"
 
 namespace dae {
-    class DieCommand final : public GameObjectCommand {
+    class DamageCommand final : public GameObjectCommand {
     public:
-        explicit DieCommand(GameObject *gameObject)
+        explicit DamageCommand(GameObject *gameObject)
             : GameObjectCommand(gameObject) {
             m_healthComponent = gameObject->GetComponent<HealthComponent>();
         }
