@@ -1,6 +1,6 @@
 #pragma once
 #include "Components/Component.h"
-#include "Observer.h"
+#include "Subject.h"
 
 namespace dae {
     class HealthComponent final : public Component, public Subject {

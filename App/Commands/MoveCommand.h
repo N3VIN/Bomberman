@@ -1,5 +1,5 @@
 #pragma once
-#include "Command.h"
+#include "ICommand.h"
 #include "GameObject.h"
 #include "TimeManager.h"
 #include <glm/glm.hpp>
@@ -14,7 +14,7 @@ namespace dae {
 
         void Execute() override {
             auto pos = glm::vec2(GetGameObject()->GetLocalPosition());
-            pos += m_direction * m_speed * Time::GetInstance().deltaTime;
+            pos += m_direction * m_speed * Time::GetInstance().deltaTime; // TODO: shouldnt += ?? idk
             GetGameObject()->SetLocalPosition(pos);
         }
 

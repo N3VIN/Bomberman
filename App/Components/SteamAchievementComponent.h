@@ -1,11 +1,11 @@
 #pragma once
-#include "Observer.h"
+#include "IObserver.h"
 #include "Components/Component.h"
 
 namespace dae {
     class PickupComponent;
 
-    class SteamAchievementComponent final : public Component, public Observer {
+    class SteamAchievementComponent final : public Component, public IObserver {
     public:
         explicit SteamAchievementComponent(GameObject *owner);
 

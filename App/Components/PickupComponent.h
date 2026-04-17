@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Observer.h"
+#include "Subject.h"
 #include "Components/Component.h"
 
 namespace dae {

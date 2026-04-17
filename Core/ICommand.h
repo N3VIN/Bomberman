@@ -3,13 +3,13 @@
 namespace dae {
     class GameObject;
 
-    class Command {
+    class ICommand {
     public:
-        virtual ~Command() = default;
+        virtual ~ICommand() = default;
         virtual void Execute() = 0;
     };
 
-    class GameObjectCommand : public Command {
+    class GameObjectCommand : public ICommand {
     public:
         explicit GameObjectCommand(GameObject *gameObject)
             : m_GameObject(gameObject) {}

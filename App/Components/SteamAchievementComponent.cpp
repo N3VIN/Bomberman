@@ -14,10 +14,12 @@ namespace dae {
         : Component(owner) {}
 
     void SteamAchievementComponent::OnNotify(GameObject *gameObject, GameEvent event) {
-        if (m_achieved) return;
+        if (m_achieved)
+            return;
 
-        if (!m_pickupComponent)
+        if (!m_pickupComponent) {
             m_pickupComponent = gameObject->GetComponent<PickupComponent>();
+        }
 
         if (event == GameEvent::PickupPicked && m_pickupComponent->GetScore() >= SCORE_TO_WIN) {
             m_achieved = true;

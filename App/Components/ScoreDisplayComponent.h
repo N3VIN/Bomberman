@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Observer.h"
+#include "IObserver.h"
 #include "Components/Component.h"
 
 
@@ -7,7 +7,7 @@ namespace dae {
     class TextComponent;
     class PickupComponent;
 
-    class ScoreDisplayComponent final : public Component, public Observer {
+    class ScoreDisplayComponent final : public Component, public IObserver {
     public:
         explicit ScoreDisplayComponent(GameObject *owner);
 

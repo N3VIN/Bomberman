@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Command.h"
+#include "ICommand.h"
 #include "GameObject.h"
 #include "../Components/PickupComponent.h"
 

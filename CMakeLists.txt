@@ -30,6 +30,8 @@ add_library(Core STATIC
         Core/Components/TextComponent.cpp
         Core/Components/FPSComponent.cpp
         Core/Components/RotatorComponent.cpp
+        Core/IObserver.cpp
+        Core/Subject.cpp
         App/Components/CacheBenchmarkComponent.cpp
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp

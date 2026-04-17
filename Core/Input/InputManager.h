@@ -1,6 +1,6 @@
 #pragma once
 #include "../Singleton.h"
-#include "../Command.h"
+#include "../ICommand.h"
 #include "Gamepad.h"
 
 #include <SDL3/SDL_scancode.h>
@@ -20,25 +20,25 @@ namespace dae {
     public:
         bool ProcessInput();
 
-        void BindCommand(SDL_Scancode key, KeyState state, std::unique_ptr<Command> command);
+        void BindCommand(SDL_Scancode key, KeyState state, std::unique_ptr<ICommand> command);
         void UnbindCommand(SDL_Scancode key, KeyState state);
 
         void BindCommand(unsigned int controllerIndex, Gamepad::Button button,
-                         KeyState state, std::unique_ptr<Command> command);
+                         KeyState state, std::unique_ptr<ICommand> command);
         void UnbindCommand(unsigned int controllerIndex, Gamepad::Button button, KeyState state);
 
     private:
         struct KeyboardBinding {
             SDL_Scancode key;
             KeyState state;
-            std::unique_ptr<Command> command;
+            std::unique_ptr<ICommand> command;
         };
 
         struct ControllerBinding {
             unsigned int controllerIndex;
             Gamepad::Button button;
             KeyState state;
-            std::unique_ptr<Command> command;
+            std::unique_ptr<ICommand> command;
         };
 
         std::vector<KeyboardBinding> m_keyboardBindings;
