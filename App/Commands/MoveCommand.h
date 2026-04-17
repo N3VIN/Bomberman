@@ -1,7 +1,7 @@
 #pragma once
-#include "ICommand.h"
-#include "GameObject.h"
-#include "TimeManager.h"
+#include "../../Core/Patterns/ICommand.h"
+#include "../../Core/SceneGraph/GameObject.h"
+#include "../../Core/Engine/TimeManager.h"
 #include <glm/glm.hpp>
 
 namespace dae {

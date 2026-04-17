@@ -2,7 +2,7 @@
 #include <cmath>
 #include <numbers>
 #include <glm/vec2.hpp>
-#include "GameObject.h"
+#include "../SceneGraph/GameObject.h"
 
 dae::RotatorComponent::RotatorComponent(GameObject *parent)
     : Component(parent) {}

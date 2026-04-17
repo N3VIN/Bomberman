@@ -1,11 +1,11 @@
 ﻿#include <stdexcept>
 #include "TextComponent.h"
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Font.h"
-#include "GameObject.h"
+#include "../Renderer/Font.h"
+#include "../SceneGraph/GameObject.h"
 #include "RenderComponent.h"
-#include "Renderer.h"
-#include "Texture2D.h"
+#include "../Renderer/Renderer.h"
+#include "../Renderer/Texture2D.h"
 
 namespace dae {
     TextComponent::TextComponent(GameObject *owner)

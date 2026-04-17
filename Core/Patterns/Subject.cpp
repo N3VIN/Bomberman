@@ -1,4 +1,4 @@
-﻿#include "Subject.h"
+﻿#include "../Patterns/Subject.h"
 
 namespace dae {
     Subject::~Subject() {

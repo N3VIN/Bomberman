@@ -1,6 +1,6 @@
 #pragma once
-#include "../Singleton.h"
-#include "../ICommand.h"
+#include "../Patterns/Singleton.h"
+#include "../Patterns/ICommand.h"
 #include "Gamepad.h"
 
 #include <SDL3/SDL_scancode.h>

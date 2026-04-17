@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "Subject.h"
+#include "../../Core/Patterns/Subject.h"
 #include "Components/Component.h"
 
 namespace dae {

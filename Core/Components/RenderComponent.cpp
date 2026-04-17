@@ -1,9 +1,9 @@
 ﻿#include "RenderComponent.h"
 
 #include <glm/trigonometric.hpp>
-#include "GameObject.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "../SceneGraph/GameObject.h"
+#include "../Renderer/Renderer.h"
+#include "../Renderer/ResourceManager.h"
 
 dae::RenderComponent::RenderComponent(GameObject *parent)
     : Component(parent) {}

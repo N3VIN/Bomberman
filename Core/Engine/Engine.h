@@ -4,19 +4,19 @@
 #include <filesystem>
 
 namespace dae {
-    class Minigin final {
+    class Engine final {
         bool m_quit{};
 
     public:
-        explicit Minigin(const std::filesystem::path &dataPath);
-        ~Minigin();
+        explicit Engine(const std::filesystem::path &dataPath);
+        ~Engine();
         void Run(const std::function<void()> &load);
         void RunOneFrame();
 
-        Minigin(const Minigin &other) = delete;
-        Minigin(Minigin &&other) = delete;
-        Minigin &operator=(const Minigin &other) = delete;
-        Minigin &operator=(Minigin &&other) = delete;
+        Engine(const Engine &other) = delete;
+        Engine(Engine &&other) = delete;
+        Engine &operator=(const Engine &other) = delete;
+        Engine &operator=(Engine &&other) = delete;
 
     private:
         std::chrono::high_resolution_clock::time_point m_lastTime{};

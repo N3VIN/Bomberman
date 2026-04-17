@@ -1,5 +1,5 @@
 ﻿#include "ScoreDisplayComponent.h"
-#include "GameObject.h"
+#include "../../Core/SceneGraph/GameObject.h"
 #include "PickupComponent.h"
 #include "Components/TextComponent.h"
 

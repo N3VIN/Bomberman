@@ -1,6 +1,6 @@
 #pragma once
-#include "ICommand.h"
-#include "GameObject.h"
+#include "../../Core/Patterns/ICommand.h"
+#include "../../Core/SceneGraph/GameObject.h"
 #include "../Components/HealthComponent.h"
 
 namespace dae {

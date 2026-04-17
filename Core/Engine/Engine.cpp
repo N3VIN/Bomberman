@@ -17,14 +17,14 @@
 #endif
 //#include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
-#include "Minigin.h"
+#include "Engine.h"
 
 #include <thread>
 
-#include "Input/InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
+#include "../Input/InputManager.h"
+#include "../SceneGraph/SceneManager.h"
+#include "../Renderer/Renderer.h"
+#include "../Renderer/ResourceManager.h"
 #include "TimeManager.h"
 
 SDL_Window *g_window{};
@@ -43,7 +43,7 @@ void LogSDLVersion(const std::string &message, int major, int minor, int patch) 
 #include "emscripten.h"
 
 void LoopCallback(void *arg) {
-    static_cast<dae::Minigin *>(arg)->RunOneFrame();
+    static_cast<dae::Engine *>(arg)->RunOneFrame();
 }
 #endif
 
@@ -62,7 +62,7 @@ void PrintSDLVersion() {
     LogSDLVersion("Linked with SDL_ttf ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-dae::Minigin::Minigin(const std::filesystem::path &dataPath) {
+dae::Engine::Engine(const std::filesystem::path &dataPath) {
 #if USE_STEAMWORKS
     if (!SteamAPI_Init())
         throw std::runtime_error(std::string("Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)."));
@@ -70,7 +70,7 @@ dae::Minigin::Minigin(const std::filesystem::path &dataPath) {
 
     PrintSDLVersion();
 
-    std::cout << "Loading minigin data..." << std::endl;
+    std::cout << "Loading engine data..." << std::endl;
 
     if (!SDL_InitSubSystem(SDL_INIT_VIDEO)) {
         SDL_Log("Renderer error: %s", SDL_GetError());
@@ -91,7 +91,7 @@ dae::Minigin::Minigin(const std::filesystem::path &dataPath) {
     ResourceManager::GetInstance().Init(dataPath);
 }
 
-dae::Minigin::~Minigin() {
+dae::Engine::~Engine() {
     Renderer::GetInstance().Destroy();
     SDL_DestroyWindow(g_window);
     g_window = nullptr;
@@ -102,7 +102,7 @@ dae::Minigin::~Minigin() {
 #endif
 }
 
-void dae::Minigin::Run(const std::function<void()> &load) {
+void dae::Engine::Run(const std::function<void()> &load) {
     load();
 
     m_lastTime = std::chrono::high_resolution_clock::now();
@@ -117,7 +117,7 @@ void dae::Minigin::Run(const std::function<void()> &load) {
 #endif
 }
 
-void dae::Minigin::RunOneFrame() {
+void dae::Engine::RunOneFrame() {
     const auto currentTime = std::chrono::high_resolution_clock::now();
     Time::GetInstance().deltaTime = std::chrono::duration<float>(currentTime - m_lastTime).count();
     m_lastTime = currentTime;

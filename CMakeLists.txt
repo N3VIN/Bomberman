@@ -1,37 +1,37 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(Bomberman)
 
 if (EMSCRIPTEN)
     message("Using Emscripten!")
 endif ()
 
 if (EMSCRIPTEN)
-    set(TARGET_NAME minigin_web)
+    set(TARGET_NAME bomberman_web)
     set(TARGET_PARAM)
 else ()
-    set(TARGET_NAME minigin)
+    set(TARGET_NAME bomberman)
     set(TARGET_PARAM WIN32)
 endif ()
 
 # Core static library
 add_library(Core STATIC
-        Core/Font.cpp
+        Core/Renderer/Font.cpp
         Core/Input/Gamepad.cpp
-        Core/GameObject.cpp
+        Core/SceneGraph/GameObject.cpp
         Core/Input/InputManager.cpp
-        Core/Minigin.cpp
-        Core/Renderer.cpp
-        Core/ResourceManager.cpp
-        Core/Scene.cpp
-        Core/SceneManager.cpp
-        Core/Texture2D.cpp
-        Core/Transform.cpp
+        Core/Engine/Engine.cpp
+        Core/Renderer/Renderer.cpp
+        Core/Renderer/ResourceManager.cpp
+        Core/SceneGraph/Scene.cpp
+        Core/SceneGraph/SceneManager.cpp
+        Core/Renderer/Texture2D.cpp
+        Core/SceneGraph/Transform.cpp
         Core/Components/RenderComponent.cpp
         Core/Components/TextComponent.cpp
         Core/Components/FPSComponent.cpp
         Core/Components/RotatorComponent.cpp
-        Core/IObserver.cpp
-        Core/Subject.cpp
+        Core/Patterns/IObserver.cpp
+        Core/Patterns/Subject.cpp
         App/Components/CacheBenchmarkComponent.cpp
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp

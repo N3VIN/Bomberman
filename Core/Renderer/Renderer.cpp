@@ -1,8 +1,8 @@
 ﻿#include <stdexcept>
 #include <cstring>
 #include <iostream>
-#include "Renderer.h"
-#include "SceneManager.h"
+#include "../Renderer/Renderer.h"
+#include "../SceneGraph/SceneManager.h"
 #include "Texture2D.h"
 
 #include <imgui.h>

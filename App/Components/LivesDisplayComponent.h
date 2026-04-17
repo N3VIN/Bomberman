@@ -1,6 +1,6 @@
 #pragma once
 #include "Components/Component.h"
-#include "IObserver.h"
+#include "../../Core/Patterns/IObserver.h"
 
 namespace dae {
     class TextComponent;

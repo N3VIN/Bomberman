@@ -1,5 +1,5 @@
 #pragma once
-#include "IObserver.h"
+#include "../../Core/Patterns/IObserver.h"
 #include "Components/Component.h"
 
 namespace dae {

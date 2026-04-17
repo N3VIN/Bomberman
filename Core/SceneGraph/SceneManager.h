@@ -3,7 +3,7 @@
 #include <string>
 #include <memory>
 #include "Scene.h"
-#include "Singleton.h"
+#include "../Patterns/Singleton.h"
 
 namespace dae {
     class Scene;

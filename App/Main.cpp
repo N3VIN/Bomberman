@@ -5,10 +5,10 @@
 #include <vld.h>
 #endif
 
-#include "Minigin.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
-#include "Scene.h"
+#include "../Core/Engine/Engine.h"
+#include "../Core/SceneGraph/SceneManager.h"
+#include "../Core/Renderer/ResourceManager.h"
+#include "../Core/SceneGraph/Scene.h"
 
 #include <filesystem>
 
@@ -176,7 +176,7 @@ int main(int, char *[]) {
     if (!fs::exists(data_location))
         data_location = "../Data/";
 #endif
-    dae::Minigin engine(data_location);
+    dae::Engine engine(data_location);
     engine.Run(load);
     return 0;
 }
