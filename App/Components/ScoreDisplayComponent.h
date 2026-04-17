@@ -9,8 +9,8 @@ namespace dae {
 
     class ScoreDisplayComponent final : public Component, public IObserver {
     public:
+        ~ScoreDisplayComponent() override;
         explicit ScoreDisplayComponent(GameObject *owner);
-
         void OnNotify(GameObject *gameObject, GameEvent event) override;
 
     private:

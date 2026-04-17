@@ -7,10 +7,9 @@ namespace dae {
 
     class SteamAchievementComponent final : public Component, public IObserver {
     public:
+        ~SteamAchievementComponent() override;
         explicit SteamAchievementComponent(GameObject *owner);
-
         void OnNotify(GameObject *gameObject, GameEvent event) override;
-
         static constexpr int SCORE_TO_WIN{500};
 
     private:

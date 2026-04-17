@@ -8,6 +8,7 @@ namespace dae {
 
     class LivesDisplayComponent final : public Component, public IObserver {
     public:
+        ~LivesDisplayComponent() override;
         explicit LivesDisplayComponent(GameObject *owner, int startingLives);
 
         void OnNotify(GameObject *gameObject, GameEvent event) override;

@@ -4,6 +4,12 @@
 #include "Components/TextComponent.h"
 
 namespace dae {
+    LivesDisplayComponent::~LivesDisplayComponent() {
+        if (m_healthComponent) {
+            m_healthComponent->RemoveObserver(this);
+        }
+    }
+
     LivesDisplayComponent::LivesDisplayComponent(GameObject *owner, int startingLives)
         : Component(owner)
       , m_textComponent(owner->GetComponent<TextComponent>()) {

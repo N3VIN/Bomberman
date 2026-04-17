@@ -4,6 +4,12 @@
 #include "Components/TextComponent.h"
 
 namespace dae {
+    ScoreDisplayComponent::~ScoreDisplayComponent() {
+        if (m_pickupComponent) {
+            m_pickupComponent->RemoveObserver(this);
+        }
+    }
+
     ScoreDisplayComponent::ScoreDisplayComponent(GameObject *owner)
         : Component(owner)
       , m_textComponent(owner->GetComponent<TextComponent>()) {

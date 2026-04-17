@@ -10,6 +10,12 @@
 #endif
 
 namespace dae {
+    SteamAchievementComponent::~SteamAchievementComponent() {
+        if (m_pickupComponent) {
+            m_pickupComponent->RemoveObserver(this);
+        }
+    }
+
     SteamAchievementComponent::SteamAchievementComponent(GameObject *owner)
         : Component(owner) {}
 

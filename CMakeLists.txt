@@ -30,14 +30,13 @@ add_library(Core STATIC
         Core/Components/TextComponent.cpp
         Core/Components/FPSComponent.cpp
         Core/Components/RotatorComponent.cpp
-        Core/Patterns/IObserver.cpp
-        Core/Patterns/Subject.cpp
         App/Components/CacheBenchmarkComponent.cpp
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp
         App/Components/PickupComponent.cpp
         App/Components/ScoreDisplayComponent.cpp
         App/Components/SteamAchievementComponent.cpp
+
 )
 
 # Main executable

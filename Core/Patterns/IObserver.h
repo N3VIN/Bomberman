@@ -1,9 +1,7 @@
 #pragma once
-#include <vector>
 
 namespace dae {
     class GameObject;
-    class Subject;
 
     enum class GameEvent {
         PlayerDied,
@@ -12,11 +10,8 @@ namespace dae {
 
     class IObserver {
     public:
-        virtual ~IObserver();
+        // IMPORTANT: child classes must implement a destructor that calls RemoveObserver(this) on its subject or it will result in dangling pointer in the subject!!
+        virtual ~IObserver() = default;
         virtual void OnNotify(GameObject *gameObject, GameEvent event) = 0;
-
-    private:
-        friend class Subject;
-        std::vector<Subject *> m_subjects{};
     };
 }
