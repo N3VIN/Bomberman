@@ -4,26 +4,34 @@
 #include "Components/TextComponent.h"
 
 namespace dae {
+    LivesDisplayComponent::LivesDisplayComponent(GameObject *owner, HealthComponent *healthComponent)
+        : Component(owner)
+      , m_textComponent(owner->GetComponent<TextComponent>())
+      , m_healthComponent(healthComponent) {
+        if (m_healthComponent) {
+            const auto life = healthComponent->GetLives();
+            m_textComponent->SetText("Score: " + std::to_string(life));
+
+            // Lambda subscription
+            m_lambdaHandle = m_healthComponent->OnLifeChanged.Subscribe([this](int lives) {
+                    std::println("Subscribed");
+                    m_textComponent->SetText("Lives: " + std::to_string(lives));
+                }
+            );
+
+            // AddRaw subscription
+            // m_memberHandle = m_healthComponent->OnLifeChanged.AddRaw(this, &LivesDisplayComponent::OnLifeChanged);
+        }
+    }
+
+    void LivesDisplayComponent::OnLifeChanged(int lives) const {
+        m_textComponent->SetText("Lives: " + std::to_string(lives));
+    }
+
     LivesDisplayComponent::~LivesDisplayComponent() {
         if (m_healthComponent) {
-            m_healthComponent->RemoveObserver(this);
-        }
-    }
-
-    LivesDisplayComponent::LivesDisplayComponent(GameObject *owner, int startingLives)
-        : Component(owner)
-      , m_textComponent(owner->GetComponent<TextComponent>()) {
-        m_textComponent->SetText("Lives: " + std::to_string(startingLives)); // TODO: startingLives is only used to display the initial text. find a way to remove this dependancy.
-    }
-
-    void LivesDisplayComponent::OnNotify(GameObject *gameObject, GameEvent event) {
-        if (!m_healthComponent) {
-            m_healthComponent = gameObject->GetComponent<HealthComponent>();
-        }
-
-        if (event == GameEvent::PlayerDied) {
-            const int lives = m_healthComponent->GetLives();
-            m_textComponent->SetText("Lives: " + std::to_string(lives));
+            m_healthComponent->OnLifeChanged.Unsubscribe(m_lambdaHandle);
+            m_healthComponent->OnLifeChanged.Unsubscribe(m_memberHandle);
         }
     }
 }

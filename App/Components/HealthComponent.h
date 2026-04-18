@@ -1,11 +1,14 @@
 #pragma once
 #include "Components/Component.h"
-#include "../../Core/Patterns/Subject.h"
+// #include "../../Core/Patterns/Subject.h"
+#include "Patterns/MulticastDelegate.h"
 
 namespace dae {
-    class HealthComponent final : public Component, public Subject {
+    class HealthComponent final : public Component {
     public:
         explicit HealthComponent(GameObject *gameObject, int lives);
+
+        MulticastDelegate<int> OnLifeChanged;
 
         void Die();
         [[nodiscard]] int GetLives() const;

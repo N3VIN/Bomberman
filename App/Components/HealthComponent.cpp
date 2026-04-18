@@ -9,7 +9,8 @@ namespace dae {
     void HealthComponent::Die() {
         if (m_lives > 0) {
             --m_lives;
-            Notify(GetParent(), GameEvent::PlayerDied);
+            // Notify(GetParent(), GameEvent::PlayerDied);
+            OnLifeChanged.Broadcast(m_lives);
         }
     }
 

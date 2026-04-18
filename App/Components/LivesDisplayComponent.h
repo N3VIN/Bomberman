@@ -1,20 +1,22 @@
 #pragma once
+#include "HealthComponent.h"
 #include "Components/Component.h"
-#include "../../Core/Patterns/IObserver.h"
 
 namespace dae {
     class TextComponent;
     class HealthComponent;
 
-    class LivesDisplayComponent final : public Component, public IObserver {
+    class LivesDisplayComponent final : public Component {
     public:
         ~LivesDisplayComponent() override;
-        explicit LivesDisplayComponent(GameObject *owner, int startingLives);
-
-        void OnNotify(GameObject *gameObject, GameEvent event) override;
+        explicit LivesDisplayComponent(GameObject *owner, HealthComponent* healthComponent);
 
     private:
         TextComponent *m_textComponent;
         HealthComponent *m_healthComponent{nullptr};
+        DelegateHandle m_lambdaHandle;
+        DelegateHandle m_memberHandle;
+
+        void OnLifeChanged(int lives) const;
     };
 }

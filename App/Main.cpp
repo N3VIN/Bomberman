@@ -97,8 +97,8 @@ static void load() {
     auto *livesText1 = livesDisplay1->AddComponent<dae::TextComponent>();
     livesText1->SetFont(smallFont);
     livesText1->SetColor({255, 255, 255, 255});
-    auto *livesComp1 = livesDisplay1->AddComponent<dae::LivesDisplayComponent>(startingLives);
-    p1Health->AddObserver(livesComp1);
+    livesDisplay1->AddComponent<dae::LivesDisplayComponent>(p1Health);
+    // p1Health->AddObserver(livesComp1);
     scene.Add(std::move(livesDisplay1));
 
     // player 1 score display
@@ -128,8 +128,8 @@ static void load() {
     auto *livesText2 = livesDisplay2->AddComponent<dae::TextComponent>();
     livesText2->SetFont(smallFont);
     livesText2->SetColor({255, 200, 100, 255});
-    auto *livesComp2 = livesDisplay2->AddComponent<dae::LivesDisplayComponent>(startingLives);
-    p2Health->AddObserver(livesComp2);
+    livesDisplay2->AddComponent<dae::LivesDisplayComponent>(p2Health);
+    // p2Health->AddObserver(livesComp2);
     scene.Add(std::move(livesDisplay2));
 
     // player 2 score display
