@@ -4,6 +4,7 @@
 #include <functional>
 #include <ostream>
 #include <print>
+#include <vector>
 
 namespace dae {
     inline constexpr uint64_t INVALID_ID = 0;
@@ -51,7 +52,7 @@ namespace dae {
 
         // member function
         template<typename Class>
-        DelegateHandle AddRaw(Class *instance, void (Class::*memberFunction)(Args...)) {
+        DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...)) {
             return Subscribe([instance, memberFunction](Args... args) {
                     std::invoke(memberFunction, instance, args...);
                 }
@@ -60,7 +61,7 @@ namespace dae {
 
         // const member function
         template<typename Class>
-        DelegateHandle AddRaw(Class *instance, void (Class::*memberFunction)(Args...) const) {
+        DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...) const) {
             return Subscribe([instance, memberFunction](Args... args) {
                     std::invoke(memberFunction, instance, args...);
                 }
