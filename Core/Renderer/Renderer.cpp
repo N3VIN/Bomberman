@@ -91,6 +91,34 @@ void dae::Renderer::RenderTexture(const Texture2D &texture, const float x, const
     SDL_RenderTextureRotated(GetSDLRenderer(), texture.GetSDLTexture(), nullptr, &dst, angleDegrees, nullptr, SDL_FLIP_NONE);
 }
 
+void dae::Renderer::RenderTexture(const Texture2D &texture, const SDL_Rect &srcRect, const float x, const float y) const {
+    SDL_FRect src{};
+    src.x = static_cast<float>(srcRect.x);
+    src.y = static_cast<float>(srcRect.y);
+    src.w = static_cast<float>(srcRect.w);
+    src.h = static_cast<float>(srcRect.h);
+    SDL_FRect dst{};
+    dst.x = x;
+    dst.y = y;
+    dst.w = src.w;
+    dst.h = src.h;
+    SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+}
+
+void dae::Renderer::RenderTexture(const Texture2D &texture, const SDL_Rect &srcRect, const float x, const float y, const float width, const float height) const {
+    SDL_FRect src{};
+    src.x = static_cast<float>(srcRect.x);
+    src.y = static_cast<float>(srcRect.y);
+    src.w = static_cast<float>(srcRect.w);
+    src.h = static_cast<float>(srcRect.h);
+    SDL_FRect dst{};
+    dst.x = x;
+    dst.y = y;
+    dst.w = width;
+    dst.h = height;
+    SDL_RenderTexture(GetSDLRenderer(), texture.GetSDLTexture(), &src, &dst);
+}
+
 SDL_Renderer *dae::Renderer::GetSDLRenderer() const {
     return m_renderer;
 }

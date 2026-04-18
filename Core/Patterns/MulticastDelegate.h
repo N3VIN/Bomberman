@@ -10,7 +10,7 @@ namespace dae {
     inline constexpr uint64_t INVALID_ID = 0;
 
     template<typename...>
-    class MulticastDelegate; // forward declaring.
+    class MulticastDelegate;
 
     class DelegateHandle final {
     public:
@@ -42,7 +42,6 @@ namespace dae {
         MulticastDelegate(MulticastDelegate &&) = delete;
         MulticastDelegate &operator=(MulticastDelegate &&) = delete;
 
-        // lambda
         template<typename Func>
         DelegateHandle Subscribe(Func &&callback) {
             const DelegateHandle handle{++m_handleID};
@@ -50,7 +49,6 @@ namespace dae {
             return handle;
         }
 
-        // member function
         template<typename Class>
         DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...)) {
             return Subscribe([instance, memberFunction](Args... args) {
@@ -59,7 +57,6 @@ namespace dae {
             );
         }
 
-        // const member function
         template<typename Class>
         DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...) const) {
             return Subscribe([instance, memberFunction](Args... args) {
@@ -69,7 +66,6 @@ namespace dae {
         }
 
         bool Unsubscribe(DelegateHandle handle) {
-            std::println("Unsubscribe called");
             if (!handle.IsValid()) {
                 return false;
             }
@@ -86,7 +82,6 @@ namespace dae {
         }
 
         void Broadcast(Args... args) {
-            std::println("Broadcast called");
             ++m_depth;
             for (const auto &listener: m_listeners) {
                 if (!listener.isAlive) {

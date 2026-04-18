@@ -25,6 +25,7 @@
 #include "../SceneGraph/SceneManager.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/ResourceManager.h"
+#include "../Level/LevelManager.h"
 #include "TimeManager.h"
 
 SDL_Window *g_window{};
@@ -89,6 +90,7 @@ dae::Engine::Engine(const std::filesystem::path &dataPath) {
 
     Renderer::GetInstance().Init(g_window);
     ResourceManager::GetInstance().Init(dataPath);
+    LevelManager::GetInstance().Init(dataPath);
 }
 
 dae::Engine::~Engine() {

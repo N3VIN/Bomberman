@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <string>
+#include <SDL3/SDL.h>
 #include "Component.h"
 
 namespace dae {
@@ -15,8 +16,15 @@ namespace dae {
 
         void SetTexture(const std::string &filename);
         void SetTexture(std::shared_ptr<Texture2D> texture);
+        void SetSourceRect(int x, int y, int w, int h);
+        void SetSourceRect(const SDL_Rect &rect);
+        void ClearSourceRect();
+        void SetScale(float scale);
 
     private:
         std::shared_ptr<Texture2D> m_texture{};
+        SDL_Rect m_srcRect{0, 0, 0, 0};
+        bool m_hasSrcRect{false};
+        float m_scale{1.f};
     };
 }
