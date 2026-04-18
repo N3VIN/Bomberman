@@ -19,8 +19,8 @@
 #include "../Core/Level/LevelManager.h"
 #include "../Core/Level/Level.h"
 
-#include "LevelSetup.h"
-#include "TileConfig.h"
+#include "Level/LevelSetup.h"
+#include "SpriteConfig.h"
 #include "Components/LevelGridComponent.h"
 #include "Components/GridMovementComponent.h"
 #include "Commands/GridMoveCommand.h"
@@ -38,7 +38,7 @@ static void load() {
     fpsGo->SetLocalPosition(glm::vec2(10, 10));
     scene.Add(std::move(fpsGo));
 
-    auto *level = dae::LevelManager::GetInstance().LoadLevel("Levels/level1.json");
+    const auto *level = dae::LevelManager::GetInstance().LoadLevel("Levels/level1.json");
     const auto setup = dae::SetupLevel(*level, scene);
     auto *levelGrid = setup.levelGridComponent;
 
@@ -49,7 +49,7 @@ static void load() {
     auto player = std::make_unique<dae::GameObject>();
     auto *playerRender = player->AddComponent<dae::RenderComponent>();
     playerRender->SetTexture("bomberman.png");
-    playerRender->SetScale(dae::TileConfig::Scale);
+    playerRender->SetScale(dae::SpriteConfig::Scale);
     player->AddComponent<dae::GridMovementComponent>(levelGrid, setup.playerSpawnPositions[0], 4.f);
     auto *playerPtr = player.get();
     scene.Add(std::move(player));

@@ -17,7 +17,7 @@ namespace dae {
         constexpr DelegateHandle() noexcept = default;
         constexpr bool operator==(const DelegateHandle &other) const = default;
 
-        constexpr bool IsValid() const noexcept {
+        [[nodiscard]] constexpr bool IsValid() const noexcept {
             return m_id != INVALID_ID;
         }
 
@@ -104,7 +104,7 @@ namespace dae {
             }
         }
 
-        bool IsListenersEmpty() const noexcept {
+        [[nodiscard]] bool IsListenersEmpty() const noexcept {
             return std::ranges::none_of(m_listeners, &ListenerHandle::isAlive);
         }
 
@@ -112,7 +112,7 @@ namespace dae {
         struct ListenerHandle final {
             DelegateHandle handle;
             std::function<void(Args...)> callbackFn;
-            bool isAlive;
+            bool isAlive{};
         };
 
         uint64_t m_handleID{INVALID_ID};

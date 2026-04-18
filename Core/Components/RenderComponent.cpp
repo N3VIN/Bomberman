@@ -17,21 +17,11 @@ void dae::RenderComponent::Render() const {
     }
 
     const auto pos = GetParent()->GetWorldPosition();
-    if (m_hasSrcRect) {
-        const float destWidth = static_cast<float>(m_srcRect.w) * m_scale;
-        const float destHeight = static_cast<float>(m_srcRect.h) * m_scale;
-        Renderer::GetInstance().RenderTexture(*m_texture, m_srcRect, pos.x, pos.y, destWidth, destHeight);
-        return;
-    }
-
-    if (m_scale != 1.f) {
-        const glm::vec2 size = m_texture->GetSize();
-        Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, size.x * m_scale, size.y * m_scale);
-        return;
-    }
-
-    const auto rotation = glm::degrees(GetParent()->GetWorldRotation());
-    Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y, rotation);
+    const glm::vec2 sourceSize = m_hasSrcRect ? glm::vec2{static_cast<float>(m_srcRect.w), static_cast<float>(m_srcRect.h)} : m_texture->GetSize();
+    const SDL_FRect dst{pos.x, pos.y, sourceSize.x * m_scale, sourceSize.y * m_scale};
+    const SDL_Rect *srcPtr = m_hasSrcRect ? &m_srcRect : nullptr;
+    const float rotation = glm::degrees(GetParent()->GetWorldRotation());
+    Renderer::GetInstance().RenderTexture(*m_texture, dst, srcPtr, rotation);
 }
 
 void dae::RenderComponent::SetTexture(const std::string &filename) {

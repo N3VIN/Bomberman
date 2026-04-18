@@ -1,10 +1,26 @@
 #include "Level.h"
 #include <fstream>
 #include <stdexcept>
-#include <ranges>
 #include <nlohmann/json.hpp>
 
 namespace dae {
+    TileType ParseTile(char tile) {
+        switch (tile) {
+            case '#':
+                return TileType::Wall;
+            case 'B':
+                return TileType::Brick;
+            case 'E':
+                return TileType::Exit;
+            case '1':
+                return TileType::Player1Spawn;
+            case '2':
+                return TileType::Player2Spawn;
+            default:
+                return TileType::Empty;
+        }
+    }
+
     Level::Level(const std::filesystem::path &path) {
         if (!std::filesystem::exists(path)) {
             throw std::runtime_error("Level file not found: " + path.string());
@@ -32,8 +48,9 @@ namespace dae {
         m_tiles.reserve(expectedSize);
 
         for (const auto &row: tiles) {
-            const std::string rowString = row.get<std::string>();
-            std::ranges::copy(rowString, std::back_inserter(m_tiles));
+            for (const std::string rowString = row.get<std::string>(); const char c: rowString) {
+                m_tiles.push_back(ParseTile(c));
+            }
         }
 
         if (m_tiles.size() != expectedSize) {
@@ -41,9 +58,9 @@ namespace dae {
         }
     }
 
-    char Level::GetTile(int column, int row) const {
+    TileType Level::GetTile(int column, int row) const {
         if (column < 0 || column >= m_columns || row < 0 || row >= m_rows) {
-            return '\0';
+            return TileType::Empty;
         }
 
         return m_tiles[static_cast<size_t>(row) * static_cast<size_t>(m_columns) + static_cast<size_t>(column)];

@@ -3,9 +3,9 @@
 #include "../../Core/SceneGraph/GameObject.h"
 
 namespace dae {
-    GridMovementComponent::GridMovementComponent(GameObject *parent, LevelGridComponent *level, glm::ivec2 startCell, float cellsPerSecond)
+    GridMovementComponent::GridMovementComponent(GameObject *parent, LevelGridComponent *levelGridComponent, glm::ivec2 startCell, float cellsPerSecond)
         : Component(parent)
-      , m_level(level)
+      , m_levelGridComponent(levelGridComponent)
       , m_cell(startCell)
       , m_cellsPerSecond(cellsPerSecond) {
         ApplyVisualPosition();
@@ -43,7 +43,7 @@ namespace dae {
             return false;
         }
 
-        if (!m_level->IsWalkable(m_cell + m_queuedDir)) {
+        if (!m_levelGridComponent->IsWalkable(m_cell + m_queuedDir)) {
             return false;
         }
 
@@ -52,8 +52,8 @@ namespace dae {
     }
 
     void GridMovementComponent::ApplyVisualPosition() const {
-        const glm::vec2 base = m_level->CellToWorld(m_cell);
-        const glm::vec2 offset = glm::vec2(m_activeDir) * m_level->GetCellSize() * m_progress;
+        const glm::vec2 base = m_levelGridComponent->CellToWorld(m_cell);
+        const glm::vec2 offset = glm::vec2(m_activeDir) * m_levelGridComponent->GetCellSize() * m_progress;
         GetParent()->SetLocalPosition(base + offset);
     }
 }

@@ -41,7 +41,7 @@ add_library(Core STATIC
         Bomberman/Components/LevelGridComponent.cpp
         Bomberman/Components/GridMovementComponent.cpp
         Bomberman/Components/GridRenderComponent.cpp
-        Bomberman/LevelSetup.cpp
+        Bomberman/Level/LevelSetup.cpp
         Core/Level/Level.cpp
         Core/Level/LevelManager.cpp
 

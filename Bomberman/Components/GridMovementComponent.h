@@ -7,7 +7,7 @@ namespace dae {
 
     class GridMovementComponent final : public Component {
     public:
-        GridMovementComponent(GameObject *parent, LevelGridComponent *level, glm::ivec2 startCell, float cellsPerSecond);
+        GridMovementComponent(GameObject *parent, LevelGridComponent *levelGridComponent, glm::ivec2 startCell, float cellsPerSecond);
         void Update(float deltaTime) override;
         void SetDesiredDirection(glm::ivec2 direction);
 
@@ -23,7 +23,7 @@ namespace dae {
             return m_activeDir != glm::ivec2{0, 0};
         }
 
-        LevelGridComponent *m_level;
+        LevelGridComponent *m_levelGridComponent;
         glm::ivec2 m_cell{0, 0};
         glm::ivec2 m_activeDir{0, 0};
         glm::ivec2 m_queuedDir{0, 0};

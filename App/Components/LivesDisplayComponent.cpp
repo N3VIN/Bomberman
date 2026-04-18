@@ -18,7 +18,7 @@ namespace dae {
             //     }
             // );
 
-            // AddRaw subscription
+            // AddMemberFunction subscription
             m_memberHandle = m_healthComponent->OnLifeChanged.AddMemberFunction(this, &LivesDisplayComponent::OnLifeChanged);
         }
     }
@@ -30,7 +30,7 @@ namespace dae {
     LivesDisplayComponent::~LivesDisplayComponent() {
         if (m_healthComponent) {
             // m_healthComponent->OnLifeChanged.Unsubscribe(m_lambdaHandle);
-            // m_healthComponent->OnLifeChanged.Unsubscribe(m_memberHandle);
+            m_healthComponent->OnLifeChanged.Unsubscribe(m_memberHandle);
         }
     }
 }

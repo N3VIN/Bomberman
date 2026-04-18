@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <vector>
 #include <glm/vec2.hpp>
+#include "../../Bomberman/Level/TileType.h"
 
 namespace dae {
     class Level final {
@@ -30,14 +31,13 @@ namespace dae {
             return m_origin;
         }
 
-        [[nodiscard]] char GetTile(int column, int row) const;
+        [[nodiscard]] TileType GetTile(int column, int row) const;
 
     private:
         int m_columns{};
         int m_rows{};
         float m_cellSize{};
         glm::vec2 m_origin{};
-        std::vector<char> m_tiles{};
+        std::vector<TileType> m_tiles{};
     };
 }
-

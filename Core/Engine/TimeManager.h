@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "Patterns/Singleton.h"
 
 namespace dae {
     class Time final : public Singleton<Time> {
