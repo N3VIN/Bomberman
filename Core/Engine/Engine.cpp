@@ -25,7 +25,6 @@
 #include "../SceneGraph/SceneManager.h"
 #include "../Renderer/Renderer.h"
 #include "../Renderer/ResourceManager.h"
-#include "../Level/LevelManager.h"
 #include "TimeManager.h"
 
 SDL_Window *g_window{};
@@ -63,7 +62,7 @@ void PrintSDLVersion() {
     LogSDLVersion("Linked with SDL_ttf ", SDL_VERSIONNUM_MAJOR(version), SDL_VERSIONNUM_MINOR(version), SDL_VERSIONNUM_MICRO(version));
 }
 
-dae::Engine::Engine(const std::filesystem::path &dataPath) {
+dae::Engine::Engine(const fs::path &dataPath) {
 #if USE_STEAMWORKS
     if (!SteamAPI_Init())
         throw std::runtime_error(std::string("Fatal Error - Steam must be running to play this game (SteamAPI_Init() failed)."));
@@ -90,7 +89,6 @@ dae::Engine::Engine(const std::filesystem::path &dataPath) {
 
     Renderer::GetInstance().Init(g_window);
     ResourceManager::GetInstance().Init(dataPath);
-    LevelManager::GetInstance().Init(dataPath);
 }
 
 dae::Engine::~Engine() {

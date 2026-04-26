@@ -12,6 +12,12 @@ namespace dae {
     public:
         Scene &CreateScene();
 
+        void SetActiveScene(Scene &scene);
+
+        [[nodiscard]] Scene *GetActiveScene() const {
+            return m_activeScene;
+        }
+
         void Update(float deltaTime);
         void FixedUpdate();
         void Render() const;
@@ -20,5 +26,6 @@ namespace dae {
         friend class Singleton<SceneManager>;
         SceneManager() = default;
         std::vector<std::unique_ptr<Scene> > m_scenes{};
+        Scene *m_activeScene{};
     };
 }

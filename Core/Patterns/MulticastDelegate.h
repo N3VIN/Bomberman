@@ -50,22 +50,23 @@ namespace dae {
         }
 
         template<typename Class>
-        DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...)) {
+        DelegateHandle Subscribe(Class *instance, void (Class::*memberFunction)(Args...)) {
             return Subscribe([instance, memberFunction](Args... args) {
                     std::invoke(memberFunction, instance, args...);
                 }
             );
         }
 
+        // for const member function
         template<typename Class>
-        DelegateHandle AddMemberFunction(Class *instance, void (Class::*memberFunction)(Args...) const) {
+        DelegateHandle Subscribe(Class *instance, void (Class::*memberFunction)(Args...) const) {
             return Subscribe([instance, memberFunction](Args... args) {
                     std::invoke(memberFunction, instance, args...);
                 }
             );
         }
 
-        bool Unsubscribe(DelegateHandle handle) {
+        bool Unsubscribe(DelegateHandle handle) { // TODO: dead entries with our current defer approach. FIX IT!!!
             if (!handle.IsValid()) {
                 return false;
             }

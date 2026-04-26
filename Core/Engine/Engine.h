@@ -3,12 +3,14 @@
 #include <functional>
 #include <filesystem>
 
+namespace fs = std::filesystem;
+
 namespace dae {
     class Engine final {
         bool m_quit{};
 
     public:
-        explicit Engine(const std::filesystem::path &dataPath);
+        explicit Engine(const fs::path &dataPath);
         ~Engine();
         void Run(const std::function<void()> &load);
         void RunOneFrame();

@@ -2,12 +2,14 @@
 #include <filesystem>
 #include <vector>
 #include <glm/vec2.hpp>
-#include "../../Bomberman/Level/TileType.h"
+#include "TileType.h"
+
+namespace fs = std::filesystem;
 
 namespace dae {
     class Level final {
     public:
-        explicit Level(const std::filesystem::path &path);
+        explicit Level(const fs::path &path);
         ~Level() = default;
 
         Level(const Level &) = delete;

@@ -1,11 +1,11 @@
 #include "LevelGridComponent.h"
-#include "../../Core/Level/Level.h"
+#include "../Level/Level.h"
 
 namespace dae {
-    LevelGridComponent::LevelGridComponent(GameObject *parent, const Level &level)
+    LevelGridComponent::LevelGridComponent(GameObject *parent, std::unique_ptr<Level> level)
         : Component(parent)
-      , m_level(&level)
-      , m_walls(static_cast<size_t>(level.GetColumns()) * static_cast<size_t>(level.GetRows()), 0) {}
+      , m_level(std::move(level))
+      , m_walls(static_cast<size_t>(m_level->GetColumns()) * static_cast<size_t>(m_level->GetRows()), 0) {}
 
     bool LevelGridComponent::IsWalkable(glm::ivec2 cell) const {
         if (!InBounds(cell)) {
@@ -37,6 +37,10 @@ namespace dae {
 
     glm::vec2 LevelGridComponent::GetOrigin() const {
         return m_level->GetOrigin();
+    }
+
+    TileType LevelGridComponent::GetTile(int column, int row) const {
+        return m_level->GetTile(column, row);
     }
 
     bool LevelGridComponent::InBounds(glm::ivec2 cell) const {

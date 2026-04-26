@@ -15,7 +15,7 @@ else ()
     set(GAME_TARGETS demo bomberman)
 endif ()
 
-# Core static library
+# core static library (engine only)
 add_library(Core STATIC
         Core/Renderer/Font.cpp
         Core/Input/Gamepad.cpp
@@ -32,31 +32,30 @@ add_library(Core STATIC
         Core/Components/TextComponent.cpp
         Core/Components/FPSComponent.cpp
         Core/Components/RotatorComponent.cpp
+)
+
+# demo executable (App)
+add_executable(${TARGET_NAME} ${TARGET_PARAM}
+        App/Main.cpp
         App/Components/CacheBenchmarkComponent.cpp
         App/Components/HealthComponent.cpp
         App/Components/LivesDisplayComponent.cpp
         App/Components/PickupComponent.cpp
         App/Components/ScoreDisplayComponent.cpp
         App/Components/SteamAchievementComponent.cpp
-        Bomberman/Components/LevelGridComponent.cpp
-        Bomberman/Components/GridMovementComponent.cpp
-        Bomberman/Components/GridRenderComponent.cpp
-        Bomberman/Level/LevelSetup.cpp
-        Core/Level/Level.cpp
-        Core/Level/LevelManager.cpp
-
 )
+target_include_directories(${TARGET_NAME} PRIVATE ${CMAKE_SOURCE_DIR}/App)
 
-# Main executable
-add_executable(${TARGET_NAME} ${TARGET_PARAM}
-        App/Main.cpp
-)
-
-# Native only
+# native only
 if (NOT EMSCRIPTEN)
     add_executable(bomberman ${TARGET_PARAM}
             Bomberman/Main.cpp
+            Bomberman/Components/LevelGridComponent.cpp
+            Bomberman/Components/GridMovementComponent.cpp
+            Bomberman/Components/GridRenderComponent.cpp
+            Bomberman/Level/Level.cpp
     )
+    target_include_directories(bomberman PRIVATE ${CMAKE_SOURCE_DIR}/Bomberman)
 endif ()
 
 # enable c++23 features
@@ -218,12 +217,7 @@ else ()
 endif ()
 
 foreach (game_target IN LISTS GAME_TARGETS)
-    target_include_directories(${game_target} PUBLIC
-            ${CMAKE_SOURCE_DIR}/Core/
-    )
-    target_link_libraries(${game_target} PUBLIC
-            Core
-    )
+    target_link_libraries(${game_target} PRIVATE Core)
     if (MSVC)
         target_compile_options(${game_target} PRIVATE /W4 /WX)
     else ()

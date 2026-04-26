@@ -19,7 +19,7 @@ namespace dae {
             // );
 
             // AddMemberFunction subscription
-            m_memberHandle = m_healthComponent->OnLifeChanged.AddMemberFunction(this, &LivesDisplayComponent::OnLifeChanged);
+            m_memberHandle = m_healthComponent->OnLifeChanged.Subscribe(this, &LivesDisplayComponent::OnLifeChanged);
         }
     }
 

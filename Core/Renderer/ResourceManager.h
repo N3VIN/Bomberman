@@ -5,20 +5,28 @@
 #include <map>
 #include "../Patterns/Singleton.h"
 
+
+namespace fs = std::filesystem;
+
 namespace dae {
     class Texture2D;
     class Font;
 
     class ResourceManager final : public Singleton<ResourceManager> {
     public:
-        void Init(const std::filesystem::path &data);
+        void Init(const fs::path &data);
+
+        [[nodiscard]] const fs::path &GetDataPath() const {
+            return m_dataPath;
+        }
+
         std::shared_ptr<Texture2D> LoadTexture(const std::string &file);
         std::shared_ptr<Font> LoadFont(const std::string &file, uint8_t size);
 
     private:
         friend class Singleton<ResourceManager>;
         ResourceManager() = default;
-        std::filesystem::path m_dataPath;
+        fs::path m_dataPath;
 
         void UnloadUnusedResources();
 

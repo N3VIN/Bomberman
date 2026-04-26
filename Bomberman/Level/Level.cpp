@@ -21,8 +21,8 @@ namespace dae {
         }
     }
 
-    Level::Level(const std::filesystem::path &path) {
-        if (!std::filesystem::exists(path)) {
+    Level::Level(const fs::path &path) {
+        if (!fs::exists(path)) {
             throw std::runtime_error("Level file not found: " + path.string());
         }
 
