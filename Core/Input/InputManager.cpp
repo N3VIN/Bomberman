@@ -86,8 +86,7 @@ void dae::InputManager::UnbindCommand(SDL_Scancode key, KeyState state) {
     );
 }
 
-void dae::InputManager::BindCommand(unsigned int controllerIndex, Gamepad::Button button,
-                                    KeyState state, std::unique_ptr<ICommand> command) {
+void dae::InputManager::BindCommand(unsigned int controllerIndex, Gamepad::Button button, KeyState state, std::unique_ptr<ICommand> command) {
     m_controllerBindings.push_back({controllerIndex, button, state, std::move(command)});
 }
 

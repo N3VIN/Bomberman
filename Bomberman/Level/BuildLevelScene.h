@@ -21,7 +21,7 @@
 
 namespace dae {
     // free function to avoid inheritance for scene
-    inline Scene &BuildLevelScene(const std::string &jsonRelativePath) {
+    inline Scene &BuildLevelScene(std::string_view jsonRelativePath) {
         constexpr float SCALE = 2.0f; // TODO: replace when camera is added
 
         auto level = std::make_unique<Level>(ResourceManager::GetInstance().GetDataPath() / jsonRelativePath);
@@ -50,6 +50,7 @@ namespace dae {
             const SDL_Rect srcRect{coord.x, coord.y, tileSize, tileSize};
             auto tile = std::make_unique<GameObject>();
             tile->SetLocalPosition(levelGridComponent->CellToWorld(cell));
+
             auto *renderComponent = tile->AddComponent<RenderComponent>();
             renderComponent->SetTexture(tileset.texturePath);
             renderComponent->SetSourceRect(srcRect);

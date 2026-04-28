@@ -20,8 +20,8 @@ namespace dae {
             return m_dataPath;
         }
 
-        std::shared_ptr<Texture2D> LoadTexture(const std::string &file);
-        std::shared_ptr<Font> LoadFont(const std::string &file, uint8_t size);
+        std::shared_ptr<Texture2D> LoadTexture(const std::string_view &file);
+        std::shared_ptr<Font> LoadFont(const std::string_view &file, uint8_t size);
 
     private:
         friend class Singleton<ResourceManager>;

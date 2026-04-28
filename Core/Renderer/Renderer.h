@@ -19,9 +19,14 @@ namespace dae {
 
         void RenderTexture(const Texture2D &texture, const SDL_FRect &dst, const SDL_Rect *src, float angleDegrees) const;
 
-        SDL_Renderer *GetSDLRenderer() const;
+        [[nodiscard]] SDL_Renderer *GetSDLRenderer() const;
 
-        const SDL_Color &GetBackgroundColor() const { return m_clearColor; }
-        void SetBackgroundColor(const SDL_Color &color) { m_clearColor = color; }
+        [[nodiscard]] const SDL_Color &GetBackgroundColor() const {
+            return m_clearColor;
+        }
+
+        void SetBackgroundColor(const SDL_Color &color) {
+            m_clearColor = color;
+        }
     };
 }

@@ -34,7 +34,7 @@ namespace dae {
         }
     }
 
-    void TextComponent::SetText(const std::string &text) {
+    void TextComponent::SetText(std::string_view text) {
         m_text = text;
         m_needsUpdate = true;
     }

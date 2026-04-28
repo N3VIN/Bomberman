@@ -14,7 +14,7 @@ namespace dae {
         void Update(float deltaTime) override;
         void Render() const override;
 
-        void SetTexture(const std::string &filename);
+        void SetTexture(std::string_view filename);
         void SetTexture(std::shared_ptr<Texture2D> texture);
         void SetSourceRect(int x, int y, int w, int h);
         void SetSourceRect(const SDL_Rect &rect);

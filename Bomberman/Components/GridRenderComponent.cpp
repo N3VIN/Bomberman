@@ -3,7 +3,7 @@
 #include "../../Core/SceneGraph/GameObject.h"
 
 namespace dae {
-    GridRenderComponent::GridRenderComponent(GameObject *parent, const std::string &texturePath, const SDL_Rect &sourceRect, float scale)
+    GridRenderComponent::GridRenderComponent(GameObject *parent, std::string_view texturePath, const SDL_Rect &sourceRect, float scale)
         : Component(parent) {
         if (!parent->HasComponent<RenderComponent>()) {
             parent->AddComponent<RenderComponent>();

@@ -9,8 +9,8 @@ namespace dae {
      */
     class Font final {
     public:
-        TTF_Font *GetFont() const;
-        explicit Font(const std::string &fullPath, float size);
+        [[nodiscard]] TTF_Font *GetFont() const;
+        explicit Font(std::string_view fullPath, float size);
         ~Font();
 
         Font(const Font &) = delete;

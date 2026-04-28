@@ -8,7 +8,7 @@ namespace dae {
 
     class GridRenderComponent final : public Component {
     public:
-        GridRenderComponent(GameObject *parent, const std::string &texturePath, const SDL_Rect &sourceRect, float scale);
+        GridRenderComponent(GameObject *parent, std::string_view texturePath, const SDL_Rect &sourceRect, float scale);
 
     private:
         RenderComponent *m_renderComponent{};

@@ -15,7 +15,7 @@ namespace dae {
 
         void Update(float deltaTime) override;
 
-        void SetText(const std::string &text);
+        void SetText(std::string_view text);
         void SetFont(std::shared_ptr<Font> font);
         void SetColor(const SDL_Color &color);
 

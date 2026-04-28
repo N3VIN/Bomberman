@@ -14,7 +14,7 @@ void dae::ResourceManager::Init(const fs::path &dataPath) {
     }
 }
 
-std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string &file) {
+std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::string_view &file) {
     const auto fullPath = m_dataPath / file;
     const auto filename = fs::path(fullPath).filename().string();
 
@@ -25,7 +25,7 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
     return m_loadedTextures.at(filename);
 }
 
-std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string &file, uint8_t size) {
+std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string_view &file, uint8_t size) {
     const auto fullPath = m_dataPath / file;
     const auto filename = fs::path(fullPath).filename().string();
     const auto key = std::pair<std::string, uint8_t>(filename, size);

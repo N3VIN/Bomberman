@@ -23,8 +23,7 @@ namespace dae {
         void BindCommand(SDL_Scancode key, KeyState state, std::unique_ptr<ICommand> command);
         void UnbindCommand(SDL_Scancode key, KeyState state);
 
-        void BindCommand(unsigned int controllerIndex, Gamepad::Button button,
-                         KeyState state, std::unique_ptr<ICommand> command);
+        void BindCommand(unsigned int controllerIndex, Gamepad::Button button, KeyState state, std::unique_ptr<ICommand> command);
         void UnbindCommand(unsigned int controllerIndex, Gamepad::Button button, KeyState state);
 
     private:
