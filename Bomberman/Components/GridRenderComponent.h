@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include <SDL3/SDL.h>
 #include "../../Core/Components/Component.h"
 
@@ -7,7 +8,7 @@ namespace dae {
 
     class GridRenderComponent final : public Component {
     public:
-        GridRenderComponent(GameObject *parent, const SDL_Rect &backgroundSourceRect);
+        GridRenderComponent(GameObject *parent, const std::string &texturePath, const SDL_Rect &sourceRect, float scale);
 
     private:
         RenderComponent *m_renderComponent{};

@@ -1,10 +1,9 @@
 #pragma once
 #include <SDL3/SDL.h>
 #include <array>
-#include <optional>
 #include <string>
 
-#include "../SpriteConfig.h"
+#include "Tileset.h"
 #include "../Components/LevelGridComponent.h"
 #include "../Components/GridRenderComponent.h"
 #include "../Components/GridMovementComponent.h"
@@ -23,31 +22,38 @@
 namespace dae {
     // free function to avoid inheritance for scene
     inline Scene &BuildLevelScene(const std::string &jsonRelativePath) {
+        constexpr float SCALE = 2.0f; // TODO: replace when camera is added
+
         auto level = std::make_unique<Level>(ResourceManager::GetInstance().GetDataPath() / jsonRelativePath);
         auto &scene = SceneManager::GetInstance().CreateScene();
+
+        const Tileset &tileset = GetTileset();
+        const int tileSize = tileset.tileSize;
 
         auto levelGameObject = std::make_unique<GameObject>();
         levelGameObject->SetLocalPosition(level->GetOrigin());
 
         const SDL_Rect backgroundSourceRect{
-            0, 0,
-            level->GetColumns() * SpriteConfig::TileSize,
-            level->GetRows() * SpriteConfig::TileSize
+            tileset.backgroundCoord.x, tileset.backgroundCoord.y,
+            level->GetColumns() * tileSize,
+            level->GetRows() * tileSize
         };
 
-        levelGameObject->AddComponent<GridRenderComponent>(backgroundSourceRect);
+        levelGameObject->AddComponent<GridRenderComponent>(tileset.texturePath, backgroundSourceRect, SCALE);
 
         auto *levelGridComponent = levelGameObject->AddComponent<LevelGridComponent>(std::move(level));
+        scene.Add(std::move(levelGameObject));
 
         std::array<glm::ivec2, 2> playerSpawnPositions{};
 
-        const auto spawnTile = [&scene, levelGridComponent](glm::ivec2 cell, const SDL_Rect &srcRect) {
+        const auto spawnTile = [&scene, levelGridComponent, &tileset, tileSize](glm::ivec2 cell, glm::ivec2 coord) {
+            const SDL_Rect srcRect{coord.x, coord.y, tileSize, tileSize};
             auto tile = std::make_unique<GameObject>();
             tile->SetLocalPosition(levelGridComponent->CellToWorld(cell));
             auto *renderComponent = tile->AddComponent<RenderComponent>();
-            renderComponent->SetTexture(SpriteConfig::TilesetPath);
+            renderComponent->SetTexture(tileset.texturePath);
             renderComponent->SetSourceRect(srcRect);
-            renderComponent->SetScale(SpriteConfig::Scale);
+            renderComponent->SetScale(SCALE);
             scene.Add(std::move(tile));
         };
 
@@ -60,10 +66,10 @@ namespace dae {
                         levelGridComponent->SetWall(cell, true);
                         break;
                     case TileType::Brick:
-                        spawnTile(cell, SpriteConfig::BrickSourceRect);
+                        spawnTile(cell, tileset.brickCoord);
                         break;
                     case TileType::Exit:
-                        spawnTile(cell, SpriteConfig::ExitSourceRect);
+                        spawnTile(cell, tileset.exitCoord);
                         break;
                     case TileType::Player1Spawn:
                         playerSpawnPositions[0] = cell;
@@ -77,8 +83,6 @@ namespace dae {
             }
         }
 
-        scene.Add(std::move(levelGameObject));
-
         auto fpsGo = std::make_unique<GameObject>();
         auto *fpsText = fpsGo->AddComponent<TextComponent>();
         fpsText->SetFont(ResourceManager::GetInstance().LoadFont("Lingua.otf", 24));
@@ -90,7 +94,7 @@ namespace dae {
         auto player = std::make_unique<GameObject>();
         auto *playerRender = player->AddComponent<RenderComponent>();
         playerRender->SetTexture("bomberman.png");
-        playerRender->SetScale(SpriteConfig::Scale);
+        playerRender->SetScale(SCALE);
         player->AddComponent<GridMovementComponent>(levelGridComponent, playerSpawnPositions[0], 4.f);
         auto *playerPtr = player.get();
         scene.Add(std::move(player));

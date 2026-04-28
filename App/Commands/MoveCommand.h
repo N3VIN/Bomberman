@@ -14,7 +14,7 @@ namespace dae {
 
         void Execute() override {
             auto pos = glm::vec2(GetGameObject()->GetLocalPosition());
-            pos += m_direction * m_speed * Time::GetInstance().deltaTime; // TODO: shouldnt += ?? idk
+            pos += m_direction * m_speed * Time::GetInstance().deltaTime;
             GetGameObject()->SetLocalPosition(pos);
         }
 

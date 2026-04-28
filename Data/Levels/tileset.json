@@ -1,0 +1,18 @@
+{
+  "texture": "Sprites/Background.png",
+  "tileSize": 16,
+  "tiles": {
+    "background": {
+      "x": 0,
+      "y": 0
+    },
+    "brick": {
+      "x": 32,
+      "y": 208
+    },
+    "exit": {
+      "x": 128,
+      "y": 208
+    }
+  }
+}
