@@ -61,7 +61,9 @@ public:
     }
 
     ~GamepadImpl() {
-        if (m_sdlGamepad) SDL_CloseGamepad(m_sdlGamepad);
+        if (m_sdlGamepad) {
+            SDL_CloseGamepad(m_sdlGamepad)
+        };
     }
 
     void Update() {
@@ -70,6 +72,7 @@ public:
             m_pressed = m_released = m_currentButtons = 0;
             return;
         }
+
         const unsigned int prev = m_currentButtons;
         m_currentButtons = BuildMask();
         const auto changes = m_currentButtons ^ prev;
@@ -101,6 +104,7 @@ private:
         if (ids && static_cast<int>(m_controllerIndex) < count) {
             m_sdlGamepad = SDL_OpenGamepad(ids[m_controllerIndex]);
         }
+
         SDL_free(ids);
     }
 
@@ -109,6 +113,7 @@ private:
             unsigned int mask;
             SDL_GamepadButton btn;
         };
+
         static constexpr std::array<ButtonMapping, 14> mappings{
             {
                 {0x0001, SDL_GAMEPAD_BUTTON_DPAD_UP},
@@ -127,12 +132,14 @@ private:
                 {0x8000, SDL_GAMEPAD_BUTTON_NORTH}, // Y
             }
         };
+
         unsigned int result = 0;
         for (const auto &m: mappings) {
             if (SDL_GetGamepadButton(m_sdlGamepad, m.btn)) {
                 result |= m.mask;
             }
         }
+
         return result;
     }
 
