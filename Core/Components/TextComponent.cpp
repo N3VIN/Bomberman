@@ -1,6 +1,4 @@
-﻿#include <stdexcept>
-#include "TextComponent.h"
-#include <SDL3_ttf/SDL_ttf.h>
+﻿#include "TextComponent.h"
 #include "../Renderer/Font.h"
 #include "../SceneGraph/GameObject.h"
 #include "RenderComponent.h"

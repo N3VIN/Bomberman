@@ -1,4 +1,3 @@
-#include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 
 #if _DEBUG && __has_include(<vld.h>)
@@ -9,8 +8,6 @@
 #include "../Core/SceneGraph/SceneManager.h"
 #include "../Core/Renderer/ResourceManager.h"
 #include "../Core/SceneGraph/Scene.h"
-
-#include <filesystem>
 
 #include "Components/RenderComponent.h"
 #include "Components/TextComponent.h"

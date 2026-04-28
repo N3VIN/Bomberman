@@ -1,8 +1,5 @@
-#include <SDL3/SDL.h>
 #include <backends/imgui_impl_sdl3.h>
 #include "InputManager.h"
-
-#include <algorithm>
 
 bool dae::InputManager::ProcessInput() {
     m_keysDown.clear();

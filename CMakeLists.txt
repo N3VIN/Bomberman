@@ -61,6 +61,9 @@ endif ()
 # enable c++23 features
 target_compile_features(Core PUBLIC cxx_std_23)
 
+# precompiled header
+target_precompile_headers(Core PUBLIC ${CMAKE_SOURCE_DIR}/Core/pch.h)
+
 include(FetchContent)
 # add glm
 find_package(glm CONFIG QUIET)

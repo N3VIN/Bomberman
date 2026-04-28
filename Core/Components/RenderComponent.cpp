@@ -24,7 +24,7 @@ void dae::RenderComponent::Render() const {
     Renderer::GetInstance().RenderTexture(*m_texture, dst, srcPtr, rotation);
 }
 
-void dae::RenderComponent::SetTexture(const std::string_view &filename) {
+void dae::RenderComponent::SetTexture(std::string_view filename) {
     m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }
 

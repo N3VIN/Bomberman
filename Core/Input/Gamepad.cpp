@@ -1,5 +1,4 @@
 #include "Gamepad.h"
-#include <array>
 
 
 #if WIN32

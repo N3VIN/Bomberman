@@ -1,8 +1,5 @@
-#include <algorithm>
-#include <cmath>
 #include "../SceneGraph/GameObject.h"
 #include "../Components/RenderComponent.h"
-#include <glm/glm.hpp>
 
 
 dae::GameObject::~GameObject() = default;

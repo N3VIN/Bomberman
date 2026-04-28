@@ -1,10 +1,8 @@
 #include "CacheBenchmarkComponent.h"
 
-#include <algorithm>
 #include <chrono>
 #include <numeric>
 
-#include <imgui.h>
 #include <imgui_plot.h>
 
 namespace dae {

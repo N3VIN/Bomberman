@@ -1,13 +1,9 @@
-﻿#include <stdexcept>
-#include <sstream>
-#include <iostream>
+﻿#include <sstream>
 
 #if WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #endif
-
-#include <SDL3/SDL.h>
 
 #if USE_STEAMWORKS
 #pragma warning (push)
@@ -15,8 +11,6 @@
 #include <steam_api.h>
 #pragma warning (pop)
 #endif
-//#include <SDL3_image/SDL_image.h>
-#include <SDL3_ttf/SDL_ttf.h>
 #include "Engine.h"
 
 #include <thread>
