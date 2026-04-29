@@ -8,7 +8,7 @@
 #include "../Core/SceneGraph/SceneManager.h"
 #include "../Core/Renderer/ResourceManager.h"
 #include "../Core/SceneGraph/Scene.h"
-#include "../Core/Audio/ServiceLocator.h"
+#include "../Core/Patterns/ServiceLocator.h"
 #include "../Core/Audio/SDLAudioService.h"
 
 #include "Components/RenderComponent.h"
@@ -29,13 +29,12 @@
 
 namespace fs = std::filesystem;
 
-constexpr dae::SoundID SOUND_DAMAGE = 0; // TODO: maybe comeup with some kind of hashing system in the future that handles this for us??
 
 static void load() {
     auto &scene = dae::SceneManager::GetInstance().CreateScene();
 
     auto &audio = dae::ServiceLocator::GetAudioService();
-    audio.LoadAudio(SOUND_DAMAGE, dae::ResourceManager::GetInstance().GetDataPath() / "damage.wav");
+    audio.LoadAudio(dae::HashSoundID("damage"), dae::ResourceManager::GetInstance().GetDataPath() / "damage.wav");
 
     auto go = std::make_unique<dae::GameObject>();
     auto *bg = go->AddComponent<dae::RenderComponent>();
@@ -90,8 +89,8 @@ static void load() {
     player1->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
     player1->SetLocalPosition(glm::vec2(300, 300));
     auto *p1Health = player1->AddComponent<dae::HealthComponent>(startingLives);
-    p1Health->OnLifeChanged.Subscribe([](int) {
-        dae::ServiceLocator::GetAudioService().PlayAudio(SOUND_DAMAGE, 1.0f); // subscribe to the audio
+    p1Health->OnLifeChanged.Subscribe([&audio](int) {
+        audio.PlayAudio(dae::HashSoundID("damage"), 1.0f); // subscribe to the audio
     });
 
     auto *p1Pickup = player1->AddComponent<dae::PickupComponent>();
@@ -125,8 +124,8 @@ static void load() {
     player2->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
     player2->SetLocalPosition(glm::vec2(500, 300));
     auto *p2Health = player2->AddComponent<dae::HealthComponent>(startingLives);
-    p2Health->OnLifeChanged.Subscribe([](int) {
-        dae::ServiceLocator::GetAudioService().PlayAudio(SOUND_DAMAGE, 1.0f); // subscribe to the audio
+    p2Health->OnLifeChanged.Subscribe([&audio](int) {
+        audio.PlayAudio(dae::HashSoundID("damage"), 1.0f); // subscribe to the audio
     });
 
     auto *p2Pickup = player2->AddComponent<dae::PickupComponent>();
