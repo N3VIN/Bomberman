@@ -62,8 +62,8 @@ public:
 
     ~GamepadImpl() {
         if (m_sdlGamepad) {
-            SDL_CloseGamepad(m_sdlGamepad)
-        };
+            SDL_CloseGamepad(m_sdlGamepad);
+        }
     }
 
     void Update() {

@@ -15,7 +15,9 @@ namespace dae {
             : m_GameObject(gameObject) {}
 
     protected:
-        [[nodiscard]] GameObject *GetGameObject() const { return m_GameObject; }
+        [[nodiscard]] GameObject *GetGameObject() const {
+            return m_GameObject;
+        }
 
     private:
         GameObject *m_GameObject;

@@ -137,6 +137,33 @@ if (NOT SDL3_ttf_FOUND)
     endif ()
 endif ()
 
+# Add SDL3_mixer
+find_package(SDL3_mixer 3.2 CONFIG QUIET)
+if (NOT SDL3_mixer_FOUND)
+    if (WIN32)
+        FetchContent_Declare(
+                SDL3_mixer
+                URL https://github.com/libsdl-org/SDL_mixer/releases/download/release-3.2.0/SDL3_mixer-devel-3.2.0-VC.zip
+                DOWNLOAD_NO_PROGRESS ON
+                DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
+        )
+        FetchContent_MakeAvailable(SDL3_mixer)
+        list(PREPEND CMAKE_PREFIX_PATH "${sdl3_mixer_SOURCE_DIR}")
+        find_package(SDL3_mixer CONFIG REQUIRED)
+    else ()
+        FetchContent_Declare(
+                SDL3_mixer
+                GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer.git
+                GIT_TAG release-3.2.0
+                GIT_SHALLOW TRUE
+                GIT_PROGRESS TRUE
+        )
+        set(SDLMIXER_INSTALL OFF)
+        set(SDLMIXER_VENDORED ON)
+        FetchContent_MakeAvailable(SDL3_mixer)
+    endif ()
+endif ()
+
 # Add nlohmann
 FetchContent_Declare(
         nlohmann_json
@@ -202,6 +229,7 @@ target_include_directories(Core PUBLIC
 target_link_libraries(Core PUBLIC
         SDL3::SDL3
         SDL3_ttf::SDL3_ttf
+        SDL3_mixer::SDL3_mixer
         glm::glm
         imgui
         imgui_plot
@@ -258,6 +286,7 @@ elseif (WIN32)
     set(SDL_RUNTIME_DLLS
             SDL3::SDL3
             SDL3_ttf::SDL3_ttf
+            SDL3_mixer::SDL3_mixer
     )
 
     foreach (game_target IN LISTS GAME_TARGETS)

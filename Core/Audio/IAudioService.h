@@ -1,14 +1,14 @@
 ﻿#pragma once
-#include <string_view>
+#include <filesystem>
 
 namespace fs = std::filesystem;
 
 namespace dae {
     using SoundID = unsigned short;
 
-    class AudioService {
+    class IAudioService {
     public:
-        virtual ~AudioService() = default;
+        virtual ~IAudioService() = default;
 
         virtual void LoadAudio(SoundID id, fs::path path) = 0;
         virtual void PlayAudio(SoundID id, float volume) = 0;

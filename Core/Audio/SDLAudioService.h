@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "AudioService.h"
+#include "IAudioService.h"
 
 namespace dae {
-    class SDLAudioService final : public AudioService {
+    class SDLAudioService final : public IAudioService {
     public:
         SDLAudioService();
         ~SDLAudioService() override;

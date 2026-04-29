@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "AudioService.h"
+#include "IAudioService.h"
 
 namespace dae {
-    class NullAudioService final : public AudioService {
+    class NullAudioService final : public IAudioService {
     public:
         void LoadAudio(SoundID id, fs::path path) override {}
         void PlayAudio(SoundID id, float volume) override {}
