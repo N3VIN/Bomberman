@@ -23,6 +23,7 @@
 #include <stop_token>
 #include <thread>
 #include <unordered_map>
+#include <print>
 
 // SDL
 #include <SDL3/SDL.h>

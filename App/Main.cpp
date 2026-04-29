@@ -8,6 +8,8 @@
 #include "../Core/SceneGraph/SceneManager.h"
 #include "../Core/Renderer/ResourceManager.h"
 #include "../Core/SceneGraph/Scene.h"
+#include "../Core/Audio/ServiceLocator.h"
+#include "../Core/Audio/SDLAudioService.h"
 
 #include "Components/RenderComponent.h"
 #include "Components/TextComponent.h"
@@ -27,8 +29,13 @@
 
 namespace fs = std::filesystem;
 
+constexpr dae::SoundID SOUND_DAMAGE = 0; // TODO: maybe comeup with some kind of hashing system in the future that handles this for us??
+
 static void load() {
     auto &scene = dae::SceneManager::GetInstance().CreateScene();
+
+    auto &audio = dae::ServiceLocator::GetAudioService();
+    audio.LoadAudio(SOUND_DAMAGE, dae::ResourceManager::GetInstance().GetDataPath() / "damage.wav");
 
     auto go = std::make_unique<dae::GameObject>();
     auto *bg = go->AddComponent<dae::RenderComponent>();
@@ -83,6 +90,10 @@ static void load() {
     player1->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
     player1->SetLocalPosition(glm::vec2(300, 300));
     auto *p1Health = player1->AddComponent<dae::HealthComponent>(startingLives);
+    p1Health->OnLifeChanged.Subscribe([](int) {
+        dae::ServiceLocator::GetAudioService().PlayAudio(SOUND_DAMAGE, 1.0f); // subscribe to the audio
+    });
+
     auto *p1Pickup = player1->AddComponent<dae::PickupComponent>();
     auto *p1Achievement = player1->AddComponent<dae::SteamAchievementComponent>();
     auto *p1 = player1.get();
@@ -114,6 +125,10 @@ static void load() {
     player2->AddComponent<dae::RenderComponent>()->SetTexture("bomberman.png");
     player2->SetLocalPosition(glm::vec2(500, 300));
     auto *p2Health = player2->AddComponent<dae::HealthComponent>(startingLives);
+    p2Health->OnLifeChanged.Subscribe([](int) {
+        dae::ServiceLocator::GetAudioService().PlayAudio(SOUND_DAMAGE, 1.0f); // subscribe to the audio
+    });
+
     auto *p2Pickup = player2->AddComponent<dae::PickupComponent>();
     auto *p2Achievement = player2->AddComponent<dae::SteamAchievementComponent>();
     auto *p2 = player2.get();
@@ -174,6 +189,7 @@ int main(int, char *[]) {
         data_location = "../Data/";
 #endif
     dae::Engine engine(data_location);
+    dae::ServiceLocator::RegisterAudioService(std::make_unique<dae::SDLAudioService>());
     engine.Run(load);
     return 0;
 }
